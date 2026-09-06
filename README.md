@@ -1,8 +1,8 @@
 <div align="center">
 
-# V-Modal Robotics SDK
+# V-Modal Robotics / Physical AI SDK
 
-### A crash-resilient uplink for LeRobot v3 datasets
+### A crash-resilient uplink for Robotics/Physical AI streeaming data flow
 
 **Immutable handoff · Checksum-keyed spool · Independent upload lanes · Restart reconciliation**
 
