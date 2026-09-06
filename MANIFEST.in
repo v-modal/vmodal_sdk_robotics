@@ -1,0 +1,5 @@
+include LICENSE README.md pyproject.toml
+prune tests
+prune ztmp
+prune ztmp_sandbox
+global-exclude __pycache__ *.py[cod]

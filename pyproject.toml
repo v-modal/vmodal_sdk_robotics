@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vmodal-robotics"
+dynamic = ["version"]
+description = "Lightweight durable uploader for LeRobot v3 artifacts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "v-modal" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: POSIX :: Linux",
+]
+dependencies = ["fire>=0.6.0,<1"]
+
+[project.optional-dependencies]
+vmodal = ["vmodal>=1.0.0,<2"]
+dev = ["build>=1.2.1,<2", "twine>=5.1.0,<7"]
+
+[project.scripts]
+vmodal-robot = "vmodal_robot.cli:main"
+
+[project.urls]
+Repository = "https://github.com/v-modal/vmodal_sdk_robotics"
+
+[tool.setuptools]
+packages = [
+  "src",
+  "src.utils",
+  "vmodal_robot",
+  "vmodal_robot.adapters",
+  "vmodal_robot.transports",
+]
+
+[tool.setuptools.package-dir]
+src = "src"
+"src.utils" = "src/utils"
+vmodal_robot = "src/vmodal_robot"
+"vmodal_robot.adapters" = "src/vmodal_robot/adapters"
+"vmodal_robot.transports" = "src/vmodal_robot/transports"
+
+[tool.setuptools.dynamic]
+version = {attr = "vmodal_robot.__version__"}
