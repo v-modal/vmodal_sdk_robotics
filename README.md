@@ -1,8 +1,8 @@
 <div align="center">
 
-# V-Modal Robotics / Physical AI SDK
+# V-Modal Robotics SDK
 
-### A crash-resilient uplink for Robotics/Physical AI streeaming data flow
+### A crash-resilient uplink for robotics streaming data.
 
 **Immutable handoff · Checksum-keyed spool · Independent upload lanes · Restart reconciliation**
 
@@ -11,6 +11,7 @@
 [![Linux](https://img.shields.io/badge/target-Linux_robot-FCC624?logo=linux&logoColor=black)](https://github.com/v-modal/vmodal_sdk_robotics)
 [![MIT](https://img.shields.io/badge/license-MIT-2EA44F)](LICENSE)
 [![runtime deps](https://img.shields.io/badge/runtime_deps-Fire_only-8A2BE2)](pyproject.toml)
+[![API reference](https://img.shields.io/badge/docs-API_reference-0A66C2)](https://v-modal.github.io/vmodal_sdk_robotics/)
 
 *The network will flap. Power will disappear. Recording must continue.*
 
@@ -26,6 +27,8 @@ The base runtime is CPython plus
 [Fire](https://github.com/google/python-fire). It does not import LeRobot,
 PyTorch, pandas, ROS, GStreamer, or a database server. SQLite is provided by the
 Python standard library.
+
+Browse the generated [Robotics SDK API reference](https://v-modal.github.io/vmodal_sdk_robotics/).
 
 ## Robot-grade invariants
 

@@ -24,12 +24,14 @@ dependencies = ["fire>=0.6.0,<1"]
 [project.optional-dependencies]
 vmodal = ["vmodal>=1.0.0,<2"]
 dev = ["build>=1.2.1,<2", "twine>=5.1.0,<7"]
+docs = ["pdoc==15.0.4"]
 
 [project.scripts]
 vmodal-robot = "vmodal_robot.cli:main"
 
 [project.urls]
 Repository = "https://github.com/v-modal/vmodal_sdk_robotics"
+Documentation = "https://v-modal.github.io/vmodal_sdk_robotics/"
 
 [tool.setuptools]
 packages = [
