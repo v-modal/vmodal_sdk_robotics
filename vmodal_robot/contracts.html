@@ -56,8 +56,50 @@
 
             </li>
             <li>
+                    <a class="class" href="#TransportUnknown">TransportUnknown</a>
+                            <ul class="memberlist">
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#TransportBlocked">TransportBlocked</a>
                             <ul class="memberlist">
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#TransportCapabilities">TransportCapabilities</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#TransportCapabilities.__init__">TransportCapabilities</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.artifact_kinds">artifact_kinds</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.max_video_bytes">max_video_bytes</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.durable_receipts">durable_receipts</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.checksum_verified">checksum_verified</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.artifact_idempotency">artifact_idempotency</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.artifact_reconciliation">artifact_reconciliation</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.revision_publication">revision_publication</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.revision_idempotency">revision_idempotency</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TransportCapabilities.revision_reconciliation">revision_reconciliation</a>
+                        </li>
                 </ul>
 
             </li>
@@ -247,6 +289,9 @@
                         <li>
                                 <a class="variable" href="#Receipt.detail">detail</a>
                         </li>
+                        <li>
+                                <a class="variable" href="#Receipt.checksum_verified">checksum_verified</a>
+                        </li>
                 </ul>
 
             </li>
@@ -383,6 +428,21 @@
 
 
                 </section>
+                <section id="TransportUnknown">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">TransportUnknown</span><wbr>(<span class="base"><a href="#TransportRetry">TransportRetry</a></span>):
+
+        
+    </div>
+    <a class="headerlink" href="#TransportUnknown"></a>
+    
+            <div class="docstring"><p>Remote absence could not be established; retain the uncertain claim.</p>
+</div>
+
+
+                </section>
                 <section id="TransportBlocked">
                     <div class="attr class">
             
@@ -397,6 +457,142 @@
 </div>
 
 
+                </section>
+                <section id="TransportCapabilities">
+                    <div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">TransportCapabilities</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities"></a>
+    
+            <div class="docstring"><p>Declared qualification evidence; stable names alone do not establish idempotency.</p>
+</div>
+
+
+                            <div id="TransportCapabilities.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">TransportCapabilities</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_kinds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">104857600</span>,</span><span class="param">	<span class="n">durable_receipts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_publication</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.__init__"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.artifact_kinds" class="classattr">
+                                <div class="attr variable">
+            <span class="name">artifact_kinds</span><span class="annotation">: Tuple[str, ...]</span>        =
+<span class="default_value">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.artifact_kinds"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.max_video_bytes" class="classattr">
+                                <div class="attr variable">
+            <span class="name">max_video_bytes</span><span class="annotation">: int</span>        =
+<span class="default_value">104857600</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.max_video_bytes"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.durable_receipts" class="classattr">
+                                <div class="attr variable">
+            <span class="name">durable_receipts</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.durable_receipts"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.checksum_verified" class="classattr">
+                                <div class="attr variable">
+            <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.checksum_verified"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.artifact_idempotency" class="classattr">
+                                <div class="attr variable">
+            <span class="name">artifact_idempotency</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.artifact_idempotency"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.artifact_reconciliation" class="classattr">
+                                <div class="attr variable">
+            <span class="name">artifact_reconciliation</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.artifact_reconciliation"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.revision_publication" class="classattr">
+                                <div class="attr variable">
+            <span class="name">revision_publication</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.revision_publication"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.revision_idempotency" class="classattr">
+                                <div class="attr variable">
+            <span class="name">revision_idempotency</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.revision_idempotency"></a>
+    
+    
+
+                            </div>
+                            <div id="TransportCapabilities.revision_reconciliation" class="classattr">
+                                <div class="attr variable">
+            <span class="name">revision_reconciliation</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TransportCapabilities.revision_reconciliation"></a>
+    
+    
+
+                            </div>
                 </section>
                 <section id="ArtifactInput">
                     <div class="attr class">
@@ -1001,7 +1197,7 @@
                             <div id="Receipt.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">Receipt</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">remote_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">status</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">detail</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span>)</span>
+        <span class="name">Receipt</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">remote_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">status</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">detail</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
         
     </div>
@@ -1067,6 +1263,18 @@
     
 
                             </div>
+                            <div id="Receipt.checksum_verified" class="classattr">
+                                <div class="attr variable">
+            <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Receipt.checksum_verified"></a>
+    
+    
+
+                            </div>
                 </section>
                 <section id="Adapter">
                     <div class="attr class">
@@ -1078,39 +1286,10 @@
     </div>
     <a class="headerlink" href="#Adapter"></a>
     
-            <div class="docstring"><p>Base class for protocol classes.</p>
+            <div class="docstring"><p>Custom adapters need only discover; admission_feedback(item, outcome) is optional.</p>
 
-<p>Protocol classes are defined as::</p>
-
-<pre><code>class Proto(Protocol):
-    def meth(self) -&gt; int:
-        ...
-</code></pre>
-
-<p>Such classes are primarily used with static type checkers that recognize
-structural subtyping (static duck-typing).</p>
-
-<p>For example::</p>
-
-<pre><code>class C:
-    def meth(self) -&gt; int:
-        return 0
-
-def func(x: Proto) -&gt; int:
-    return x.meth()
-
-func(C())  # Passes static type check
-</code></pre>
-
-<p>See PEP 544 for details. Protocol classes decorated with
-@typing.runtime_checkable act as simple-minded runtime protocols that check
-only the presence of given attributes, ignoring their type signatures.
-Protocol classes can be generic, they are defined as::</p>
-
-<pre><code>class GenProto(Protocol[T]):
-    def meth(self) -&gt; T:
-        ...
-</code></pre>
+<p>The built-in adapter confirms accepted handoffs after the durable commit,
+retries deferred handoffs, and caches permanent rejection until content changes.</p>
 </div>
 
 
@@ -1221,7 +1400,9 @@ Protocol classes can be generic, they are defined as::</p>
     </div>
     <a class="headerlink" href="#Transport.reconcile"></a>
     
-    
+            <div class="docstring"><p>None means confirmed absence; unknown/unavailable must raise TransportUnknown.</p>
+</div>
+
 
                             </div>
                             <div id="Transport.publish_revision" class="classattr">

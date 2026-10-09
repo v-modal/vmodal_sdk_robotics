@@ -74,13 +74,34 @@
                                 <a class="variable" href="#Spool.db">db</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Spool.last_cleanup">last_cleanup</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Spool.close">close</a>
                         </li>
                         <li>
                                 <a class="function" href="#Spool.reject">reject</a>
                         </li>
                         <li>
+                                <a class="function" href="#Spool.clear_rejection">clear_rejection</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Spool.accept">accept</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.reject_accept">reject_accept</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.prepare_accept">prepare_accept</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.copy_accept">copy_accept</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.abandon_accept">abandon_accept</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.commit_accept">commit_accept</a>
                         </li>
                         <li>
                                 <a class="function" href="#Spool.get_artifact">get_artifact</a>
@@ -104,6 +125,9 @@
                                 <a class="function" href="#Spool.mark_acknowledged">mark_acknowledged</a>
                         </li>
                         <li>
+                                <a class="function" href="#Spool.recover_unverified">recover_unverified</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Spool.mark_retry">mark_retry</a>
                         </li>
                         <li>
@@ -111,6 +135,12 @@
                         </li>
                         <li>
                                 <a class="function" href="#Spool.mark_blocked">mark_blocked</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.mark_uncertain">mark_uncertain</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.uncertain_due">uncertain_due</a>
                         </li>
                         <li>
                                 <a class="function" href="#Spool.claim_revision">claim_revision</a>
@@ -126,6 +156,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Spool.blocked_count">blocked_count</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.deferred_count">deferred_count</a>
                         </li>
                         <li>
                                 <a class="function" href="#Spool.mark_revision_ready">mark_revision_ready</a>
@@ -340,6 +373,17 @@
     
 
                             </div>
+                            <div id="Spool.last_cleanup" class="classattr">
+                                <div class="attr variable">
+            <span class="name">last_cleanup</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.last_cleanup"></a>
+    
+    
+
+                            </div>
                             <div id="Spool.close" class="classattr">
                                 <div class="attr function">
             
@@ -357,11 +401,24 @@
                                 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">reject</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+        <span class="name">reject</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'invalid'</span></span><span class="return-annotation">):</span></span>
 
         
     </div>
     <a class="headerlink" href="#Spool.reject"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.clear_rejection" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">clear_rejection</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.clear_rejection"></a>
     
     
 
@@ -375,6 +432,71 @@
         
     </div>
     <a class="headerlink" href="#Spool.accept"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.reject_accept" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">reject_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item</span><span class="p">:</span> <span class="n"><a href="../vmodal_robot.html#RevisionInput">vmodal_robot.RevisionInput</a></span>, </span><span class="param"><span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.reject_accept"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.prepare_accept" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">prepare_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item</span><span class="p">:</span> <span class="n"><a href="../vmodal_robot.html#RevisionInput">vmodal_robot.RevisionInput</a></span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.prepare_accept"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.copy_accept" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">copy_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>, </span><span class="param"><span class="n">stop_event</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.copy_accept"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.abandon_accept" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">abandon_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.abandon_accept"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.commit_accept" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">commit_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="../vmodal_robot.html#DatasetRevision">vmodal_robot.DatasetRevision</a></span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.commit_accept"></a>
     
     
 
@@ -470,6 +592,19 @@
     
 
                             </div>
+                            <div id="Spool.recover_unverified" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">recover_unverified</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.recover_unverified"></a>
+    
+    
+
+                            </div>
                             <div id="Spool.mark_retry" class="classattr">
                                 <div class="attr function">
             
@@ -505,6 +640,32 @@
         
     </div>
     <a class="headerlink" href="#Spool.mark_blocked"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.mark_uncertain" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mark_uncertain</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">delay</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.mark_uncertain"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.uncertain_due" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">uncertain_due</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">revision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.uncertain_due"></a>
     
     
 
@@ -570,6 +731,19 @@
         
     </div>
     <a class="headerlink" href="#Spool.blocked_count"></a>
+    
+    
+
+                            </div>
+                            <div id="Spool.deferred_count" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">deferred_count</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Spool.deferred_count"></a>
     
     
 
@@ -643,7 +817,7 @@
                                 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
+        <span class="name">status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
 
         
     </div>

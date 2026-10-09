@@ -42,7 +42,13 @@
                                 <a class="variable" href="#VmodalTransport.multipart_max_concurrency">multipart_max_concurrency</a>
                         </li>
                         <li>
+                                <a class="variable" href="#VmodalTransport.capabilities">capabilities</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#VmodalTransport.from_env">from_env</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#VmodalTransport.validate_capabilities">validate_capabilities</a>
                         </li>
                         <li>
                                 <a class="function" href="#VmodalTransport.deliver">deliver</a>
@@ -52,6 +58,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#VmodalTransport.publish_revision">publish_revision</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#VmodalTransport.reconcile_revision">reconcile_revision</a>
                         </li>
                         <li>
                                 <a class="function" href="#VmodalTransport.close">close</a>
@@ -153,6 +162,17 @@
     
 
                             </div>
+                            <div id="VmodalTransport.capabilities" class="classattr">
+                                <div class="attr variable">
+            <span class="name">capabilities</span>
+
+        
+    </div>
+    <a class="headerlink" href="#VmodalTransport.capabilities"></a>
+    
+    
+
+                            </div>
                             <div id="VmodalTransport.from_env" class="classattr">
                                 <div class="attr function">
                     <div class="decorator decorator-classmethod">@classmethod</div>
@@ -163,6 +183,21 @@
         
     </div>
     <a class="headerlink" href="#VmodalTransport.from_env"></a>
+    
+            <div class="docstring"><p>Fail before admission until a generic backend is qualified and wired here.</p>
+</div>
+
+
+                            </div>
+                            <div id="VmodalTransport.validate_capabilities" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">validate_capabilities</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">max_video_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#VmodalTransport.validate_capabilities"></a>
     
     
 
@@ -202,6 +237,19 @@
         
     </div>
     <a class="headerlink" href="#VmodalTransport.publish_revision"></a>
+    
+    
+
+                            </div>
+                            <div id="VmodalTransport.reconcile_revision" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">async def</span>
+        <span class="name">reconcile_revision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="n"><a href="../../vmodal_robot.html#DatasetRevision">vmodal_robot.DatasetRevision</a></span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="../../vmodal_robot.html#Receipt">vmodal_robot.Receipt</a></span><span class="p">]</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#VmodalTransport.reconcile_revision"></a>
     
     
 
