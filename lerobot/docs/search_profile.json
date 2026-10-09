@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "qualified": false,
+  "calibration_version": null,
+  "calibration_record": null,
+  "consumer_approved": false,
+  "false_accept_budget": null,
+  "distance_field": null,
+  "max_distance": null,
+  "freshness_seconds": null,
+  "max_clock_uncertainty_seconds": null,
+  "scope": {
+    "collection": null,
+    "model": null,
+    "metric": null,
+    "direction": null,
+    "preprocessing": null,
+    "camera_domain": null,
+    "index_version": null,
+    "sampling_policy": null,
+    "query_kind": null,
+    "search_combine_mode": null
+  }
+}

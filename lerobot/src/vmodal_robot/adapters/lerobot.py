@@ -22,21 +22,48 @@ class LeRobotAdapter:
         self.ready_dir = os.path.abspath(os.path.expanduser(ready_dir))
         self._errors: List[Tuple[str, str]] = []
         self._seen: Dict[str, Tuple[int, int]] = {}
+        self._pending: Dict[str, Tuple[int, int]] = {}
+        self._reported: Dict[str, Tuple[Any, str]] = {}
+        self._cursor = ""
 
     def discover(self, limit: int = 100) -> List[RevisionInput]:
         items = []
-        paths = sorted(glob.glob(os.path.join(self.ready_dir, "*.ready.json")))[: max(0, limit)]
+        if limit <= 0:
+            return items
+        paths = sorted(glob.glob(os.path.join(self.ready_dir, "*.ready.json")))
+        split = next((i for i, path in enumerate(paths) if path > self._cursor), len(paths))
+        paths = paths[split:] + paths[:split]
         for path in paths:
-            stat = os.stat(path)
-            stamp = (stat.st_size, stat.st_mtime_ns)
-            if self._seen.get(path) == stamp:
-                continue
+            stamp = None
             try:
-                items.append(self.os_load_manifest(path))
-            except Exception as exc:
-                self._errors.append((path, str(exc)))
-            self._seen[path] = stamp
+                stat = os.stat(path)
+                stamp = (stat.st_size, stat.st_mtime_ns)
+                if self._seen.get(path) == stamp or self._pending.get(path) == stamp:
+                    continue
+                item = self.os_load_manifest(path)
+            except (OSError, ValueError, TypeError) as exc:
+                reason = str(exc)
+                if self._reported.get(path) != (stamp, reason):
+                    self._errors.append((path, reason))
+                    self._reported[path] = (stamp, reason)
+                if stamp is not None and not isinstance(exc, OSError):
+                    self._seen[path] = stamp
+                continue
+            self._reported.pop(path, None)
+            self._pending[path] = stamp
+            self._cursor = path
+            items.append(item)
+            if len(items) >= limit:
+                break
         return items
+
+    def admission_feedback(self, item: RevisionInput, outcome: str):
+        """Confirm committed admission or release a handoff for a later fair poll."""
+        if outcome not in ("accepted", "deferred", "rejected"):
+            raise ValueError(f"unsupported admission outcome: {outcome}")
+        stamp = self._pending.pop(item.manifest_path, None)
+        if stamp is not None and outcome != "deferred":
+            self._seen[item.manifest_path] = stamp
 
     def drain_errors(self) -> List[Tuple[str, str]]:
         values = self._errors

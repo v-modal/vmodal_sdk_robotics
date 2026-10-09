@@ -6,7 +6,7 @@ import os,sys
 import fire
 from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
-from .contracts import Artifact, ArtifactInput, DatasetRevision, Receipt, RevisionInput
+from .contracts import Artifact, ArtifactInput, DatasetRevision, Receipt, RevisionInput, TransportCapabilities, TransportUnknown
 from .runner import Runner, RunnerConfig
 from .spool import Spool, SpoolConfig
 
@@ -22,5 +22,7 @@ __all__ = [
     "RunnerConfig",
     "Spool",
     "SpoolConfig",
+    "TransportCapabilities",
+    "TransportUnknown",
     "__version__",
 ]

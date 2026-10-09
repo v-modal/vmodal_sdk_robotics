@@ -1,4 +1,7 @@
 include LICENSE README.md pyproject.toml
+include docs/awesome_robot_physical_ai.md docs/transport_contract.md docs/search_qualification.md docs/search_profile.json
+include examples/search_acceptance.py examples/measure_cloud_latency.py
+prune docs/todo
 prune tests
 prune ztmp
 prune ztmp_sandbox
