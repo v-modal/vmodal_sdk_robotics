@@ -183,9 +183,19 @@ vmodal_sdk_robotics/
 │   ├── docs/
 │   ├── pyproject.toml
 │   └── README.md
-└── google_intrisinc/        # Intrinsic Core integration blueprint
-    └── readme.md
+├── google_intrisinc/        # Intrinsic Core integration blueprint
+│   └── readme.md
+└── todo/                    # proposed features and integration designs
+    ├── 00_new_features.md
+    └── full/
 ```
+
+## Roadmap
+
+Read the [new features backlog](todo/00_new_features.md) for proposed capture,
+search, dataset curation, and robot-aware MCP features. The [integration
+designs](todo/full/) describe the planned data contracts and architecture.
+These are proposals; the backlog identifies existing behavior and backend gates.
 
 ## For people building real robots
 
