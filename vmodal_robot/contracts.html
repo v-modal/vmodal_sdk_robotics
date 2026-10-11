@@ -342,21 +342,21 @@
                     <h1 class="modulename">
 <a href="./../vmodal_robot.html">vmodal_robot</a><wbr>.contracts    </h1>
 
-                
-                
-                
-                
+
+
+
+
             </section>
                 <section id="CONTRACT_VERSION">
                     <div class="attr variable">
             <span class="name">CONTRACT_VERSION</span>        =
 <span class="default_value">1</span>
 
-        
+
     </div>
     <a class="headerlink" href="#CONTRACT_VERSION"></a>
-    
-    
+
+
 
                 </section>
                 <section id="ARTIFACT_KINDS">
@@ -364,11 +364,11 @@
             <span class="name">ARTIFACT_KINDS</span>        =
 <span class="default_value">(&#39;video&#39;, &#39;telemetry&#39;, &#39;metadata&#39;, &#39;opaque&#39;)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ARTIFACT_KINDS"></a>
-    
-    
+
+
 
                 </section>
                 <section id="ARTIFACT_STATES">
@@ -376,23 +376,23 @@
             <span class="name">ARTIFACT_STATES</span>        =
 <span class="default_value">(&#39;READY&#39;, &#39;SENDING&#39;, &#39;RETRY_WAIT&#39;, &#39;ACKNOWLEDGED&#39;, &#39;BLOCKED&#39;)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ARTIFACT_STATES"></a>
-    
-    
+
+
 
                 </section>
                 <section id="ContractError">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">ContractError</span><wbr>(<span class="base">builtins.ValueError</span>):
 
-        
+
     </div>
     <a class="headerlink" href="#ContractError"></a>
-    
+
             <div class="docstring"><p>Inappropriate argument value (of correct type).</p>
 </div>
 
@@ -400,14 +400,14 @@
                 </section>
                 <section id="SpoolFull">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">SpoolFull</span><wbr>(<span class="base"><a href="#ContractError">ContractError</a></span>):
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolFull"></a>
-    
+
             <div class="docstring"><p>Inappropriate argument value (of correct type).</p>
 </div>
 
@@ -415,14 +415,14 @@
                 </section>
                 <section id="TransportRetry">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">TransportRetry</span><wbr>(<span class="base">builtins.RuntimeError</span>):
 
-        
+
     </div>
     <a class="headerlink" href="#TransportRetry"></a>
-    
+
             <div class="docstring"><p>Unspecified run-time error.</p>
 </div>
 
@@ -430,14 +430,14 @@
                 </section>
                 <section id="TransportUnknown">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">TransportUnknown</span><wbr>(<span class="base"><a href="#TransportRetry">TransportRetry</a></span>):
 
-        
+
     </div>
     <a class="headerlink" href="#TransportUnknown"></a>
-    
+
             <div class="docstring"><p>Remote absence could not be established; retain the uncertain claim.</p>
 </div>
 
@@ -445,14 +445,14 @@
                 </section>
                 <section id="TransportBlocked">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">TransportBlocked</span><wbr>(<span class="base">builtins.RuntimeError</span>):
 
-        
+
     </div>
     <a class="headerlink" href="#TransportBlocked"></a>
-    
+
             <div class="docstring"><p>Unspecified run-time error.</p>
 </div>
 
@@ -465,24 +465,24 @@
     <span class="def">class</span>
     <span class="name">TransportCapabilities</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities"></a>
-    
+
             <div class="docstring"><p>Declared qualification evidence; stable names alone do not establish idempotency.</p>
 </div>
 
 
                             <div id="TransportCapabilities.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">TransportCapabilities</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_kinds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">104857600</span>,</span><span class="param">	<span class="n">durable_receipts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_publication</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_kinds" class="classattr">
@@ -490,11 +490,11 @@
             <span class="name">artifact_kinds</span><span class="annotation">: Tuple[str, ...]</span>        =
 <span class="default_value">()</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_kinds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.max_video_bytes" class="classattr">
@@ -502,11 +502,11 @@
             <span class="name">max_video_bytes</span><span class="annotation">: int</span>        =
 <span class="default_value">104857600</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.max_video_bytes"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.durable_receipts" class="classattr">
@@ -514,11 +514,11 @@
             <span class="name">durable_receipts</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.durable_receipts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.checksum_verified" class="classattr">
@@ -526,11 +526,11 @@
             <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.checksum_verified"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_idempotency" class="classattr">
@@ -538,11 +538,11 @@
             <span class="name">artifact_idempotency</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_idempotency"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_reconciliation" class="classattr">
@@ -550,11 +550,11 @@
             <span class="name">artifact_reconciliation</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_reconciliation"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_publication" class="classattr">
@@ -562,11 +562,11 @@
             <span class="name">revision_publication</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_publication"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_idempotency" class="classattr">
@@ -574,11 +574,11 @@
             <span class="name">revision_idempotency</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_idempotency"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_reconciliation" class="classattr">
@@ -586,11 +586,11 @@
             <span class="name">revision_reconciliation</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_reconciliation"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -601,77 +601,77 @@
     <span class="def">class</span>
     <span class="name">ArtifactInput</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput"></a>
-    
-    
+
+
 
                             <div id="ArtifactInput.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">ArtifactInput</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rel_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">byte_length</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">source_clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">time_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">source_refs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.rel_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">rel_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.rel_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.kind" class="classattr">
                                 <div class="attr variable">
             <span class="name">kind</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.kind"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.content_type" class="classattr">
                                 <div class="attr variable">
             <span class="name">content_type</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.content_type"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.byte_length" class="classattr">
                                 <div class="attr variable">
             <span class="name">byte_length</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.byte_length"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.checksum" class="classattr">
@@ -679,11 +679,11 @@
             <span class="name">checksum</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_clock" class="classattr">
@@ -691,11 +691,11 @@
             <span class="name">source_clock</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_clock"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.time_start" class="classattr">
@@ -703,11 +703,11 @@
             <span class="name">time_start</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.time_start"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.time_end" class="classattr">
@@ -715,11 +715,11 @@
             <span class="name">time_end</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.time_end"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_refs" class="classattr">
@@ -727,11 +727,11 @@
             <span class="name">source_refs</span><span class="annotation">: Optional[Dict[str, Any]]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_refs"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -742,110 +742,110 @@
     <span class="def">class</span>
     <span class="name">RevisionInput</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput"></a>
-    
-    
+
+
 
                             <div id="RevisionInput.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">RevisionInput</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_key</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_format</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_version</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_revision</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">complete</span><span class="p">:</span> <span class="nb">bool</span>,</span><span class="param">	<span class="n">artifacts</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n"><a href="#ArtifactInput">ArtifactInput</a></span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>,</span><span class="param">	<span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.dataset_key" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_key</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.dataset_key"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_format" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_format</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_format"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_version</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.destination" class="classattr">
                                 <div class="attr variable">
             <span class="name">destination</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.destination"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_revision" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_revision</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.complete" class="classattr">
                                 <div class="attr variable">
             <span class="name">complete</span><span class="annotation">: bool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.artifacts" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifacts</span><span class="annotation">: Tuple[<a href="#ArtifactInput">ArtifactInput</a>, ...]</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.artifacts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.manifest_path" class="classattr">
@@ -853,11 +853,11 @@
             <span class="name">manifest_path</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.manifest_path"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -868,132 +868,132 @@
     <span class="def">class</span>
     <span class="name">Artifact</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact"></a>
-    
-    
+
+
 
                             <div id="Artifact.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Artifact</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">contract_version</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">rel_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">byte_length</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">local_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">time_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">source_refs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.contract_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">contract_version</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.contract_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.artifact_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.artifact_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.dataset_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.dataset_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.kind" class="classattr">
                                 <div class="attr variable">
             <span class="name">kind</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.kind"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.rel_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">rel_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.rel_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.content_type" class="classattr">
                                 <div class="attr variable">
             <span class="name">content_type</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.content_type"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.byte_length" class="classattr">
                                 <div class="attr variable">
             <span class="name">byte_length</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.byte_length"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.checksum" class="classattr">
                                 <div class="attr variable">
             <span class="name">checksum</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.local_ref" class="classattr">
                                 <div class="attr variable">
             <span class="name">local_ref</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.local_ref"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_clock" class="classattr">
@@ -1001,11 +1001,11 @@
             <span class="name">source_clock</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_clock"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.time_start" class="classattr">
@@ -1013,11 +1013,11 @@
             <span class="name">time_start</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.time_start"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.time_end" class="classattr">
@@ -1025,11 +1025,11 @@
             <span class="name">time_end</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.time_end"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_refs" class="classattr">
@@ -1037,11 +1037,11 @@
             <span class="name">source_refs</span><span class="annotation">: Optional[Dict[str, Any]]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_refs"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -1052,132 +1052,132 @@
     <span class="def">class</span>
     <span class="name">DatasetRevision</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision"></a>
-    
-    
+
+
 
                             <div id="DatasetRevision.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">DatasetRevision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">contract_version</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_format</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_version</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_revision</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">complete</span><span class="p">:</span> <span class="nb">bool</span>,</span><span class="param">	<span class="n">artifact_ids</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.contract_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">contract_version</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.contract_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.revision_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">revision_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.revision_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.dataset_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.dataset_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_format" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_format</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_format"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_version</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.destination" class="classattr">
                                 <div class="attr variable">
             <span class="name">destination</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.destination"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_revision" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_revision</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.complete" class="classattr">
                                 <div class="attr variable">
             <span class="name">complete</span><span class="annotation">: bool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.artifact_ids" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_ids</span><span class="annotation">: Tuple[str, ...]</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.artifact_ids"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -1188,55 +1188,55 @@
     <span class="def">class</span>
     <span class="name">Receipt</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt"></a>
-    
-    
+
+
 
                             <div id="Receipt.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Receipt</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">remote_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">status</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">detail</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.artifact_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.artifact_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.remote_ref" class="classattr">
                                 <div class="attr variable">
             <span class="name">remote_ref</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.remote_ref"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.status" class="classattr">
                                 <div class="attr variable">
             <span class="name">status</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.status"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.checksum" class="classattr">
@@ -1244,11 +1244,11 @@
             <span class="name">checksum</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.detail" class="classattr">
@@ -1256,11 +1256,11 @@
             <span class="name">detail</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.detail"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.checksum_verified" class="classattr">
@@ -1268,24 +1268,24 @@
             <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.checksum_verified"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="Adapter">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">Adapter</span><wbr>(<span class="base">typing.Protocol</span>):
 
-        
+
     </div>
     <a class="headerlink" href="#Adapter"></a>
-    
+
             <div class="docstring"><p>Custom adapters need only discover; admission_feedback(item, outcome) is optional.</p>
 
 <p>The built-in adapter confirms accepted handoffs after the durable commit,
@@ -1295,40 +1295,40 @@ retries deferred handoffs, and caches permanent rejection until content changes.
 
                             <div id="Adapter.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Adapter</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Adapter.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Adapter.discover" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">discover</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="#RevisionInput">RevisionInput</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Adapter.discover"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="Transport">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">Transport</span><wbr>(<span class="base">typing.Protocol</span>):
 
-        
+
     </div>
     <a class="headerlink" href="#Transport"></a>
-    
+
             <div class="docstring"><p>Base class for protocol classes.</p>
 
 <p>Protocol classes are defined as::</p>
@@ -1367,39 +1367,39 @@ Protocol classes can be generic, they are defined as::</p>
 
                             <div id="Transport.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Transport</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Transport.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Transport.deliver" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">deliver</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">artifact</span><span class="p">:</span> <span class="n"><a href="#Artifact">Artifact</a></span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n"><a href="#Receipt">Receipt</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Transport.deliver"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Transport.reconcile" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">reconcile</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">artifact</span><span class="p">:</span> <span class="n"><a href="#Artifact">Artifact</a></span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="#Receipt">Receipt</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Transport.reconcile"></a>
-    
+
             <div class="docstring"><p>None means confirmed absence; unknown/unavailable must raise TransportUnknown.</p>
 </div>
 
@@ -1407,15 +1407,15 @@ Protocol classes can be generic, they are defined as::</p>
                             </div>
                             <div id="Transport.publish_revision" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">publish_revision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="n"><a href="#DatasetRevision">DatasetRevision</a></span></span><span class="return-annotation">) -> <span class="n"><a href="#Receipt">Receipt</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Transport.publish_revision"></a>
-    
-    
+
+
 
                             </div>
                 </section>

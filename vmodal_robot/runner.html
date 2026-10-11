@@ -129,10 +129,10 @@
                     <h1 class="modulename">
 <a href="./../vmodal_robot.html">vmodal_robot</a><wbr>.runner    </h1>
 
-                
-                
-                
-                
+
+
+
+
             </section>
                 <section id="RunnerConfig">
                     <div class="attr class">
@@ -141,22 +141,22 @@
     <span class="def">class</span>
     <span class="name">RunnerConfig</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig"></a>
-    
-    
+
+
 
                             <div id="RunnerConfig.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">RunnerConfig</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">discovery_batch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>,</span><span class="param">	<span class="n">poll_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>,</span><span class="param">	<span class="n">request_timeout_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">120.0</span>,</span><span class="param">	<span class="n">retry_base_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>,</span><span class="param">	<span class="n">retry_max_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span>,</span><span class="param">	<span class="n">max_attempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.discovery_batch" class="classattr">
@@ -164,11 +164,11 @@
             <span class="name">discovery_batch</span><span class="annotation">: int</span>        =
 <span class="default_value">100</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.discovery_batch"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.poll_seconds" class="classattr">
@@ -176,11 +176,11 @@
             <span class="name">poll_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">1.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.poll_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.request_timeout_seconds" class="classattr">
@@ -188,11 +188,11 @@
             <span class="name">request_timeout_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">120.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.request_timeout_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retry_base_seconds" class="classattr">
@@ -200,11 +200,11 @@
             <span class="name">retry_base_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">1.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retry_base_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retry_max_seconds" class="classattr">
@@ -212,11 +212,11 @@
             <span class="name">retry_max_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">300.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retry_max_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.max_attempts" class="classattr">
@@ -224,11 +224,11 @@
             <span class="name">max_attempts</span><span class="annotation">: int</span>        =
 <span class="default_value">0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.max_attempts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retention_seconds" class="classattr">
@@ -236,223 +236,223 @@
             <span class="name">retention_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">0.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retention_seconds"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="Runner">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">Runner</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Runner"></a>
-    
-    
+
+
 
                             <div id="Runner.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Runner</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">adapter</span><span class="p">:</span> <span class="n"><a href="contracts.html#Adapter">vmodal_robot.contracts.Adapter</a></span>,</span><span class="param">	<span class="n">spool</span><span class="p">:</span> <span class="n"><a href="../vmodal_robot.html#Spool">vmodal_robot.Spool</a></span>,</span><span class="param">	<span class="n">transport</span><span class="p">:</span> <span class="n"><a href="contracts.html#Transport">vmodal_robot.contracts.Transport</a></span>,</span><span class="param">	<span class="n">cfg</span><span class="p">:</span> <span class="n"><a href="#RunnerConfig">RunnerConfig</a></span> <span class="o">=</span> <span class="n">RunnerConfig</span><span class="p">(</span><span class="n">discovery_batch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">poll_seconds</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">request_timeout_seconds</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span> <span class="n">retry_base_seconds</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">retry_max_seconds</span><span class="o">=</span><span class="mf">300.0</span><span class="p">,</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retention_seconds</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.adapter" class="classattr">
                                 <div class="attr variable">
             <span class="name">adapter</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.adapter"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.spool" class="classattr">
                                 <div class="attr variable">
             <span class="name">spool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.spool"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.transport" class="classattr">
                                 <div class="attr variable">
             <span class="name">transport</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.transport"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.cfg" class="classattr">
                                 <div class="attr variable">
             <span class="name">cfg</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.cfg"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.complete" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">complete</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.validate_transport" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">validate_transport</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.validate_transport"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.admit" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">admit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="../vmodal_robot.html#DatasetRevision">vmodal_robot.DatasetRevision</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.admit"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.recover" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">recover</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.recover"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.run_once" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">run_once</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">lane</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.run_once"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.publish_once" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">publish_once</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.publish_once"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.cycle" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">cycle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">admit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.cycle"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.run" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">run</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.run"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.flush" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">flush</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">deadline_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60.0</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.flush"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.close" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">close</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.close"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.stop" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">stop</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">deadline_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.stop"></a>
-    
-    
+
+
 
                             </div>
                 </section>

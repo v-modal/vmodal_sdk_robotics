@@ -24,6 +24,11 @@
 
 
 
+            <h2>Contents</h2>
+            <ul>
+  <li><a href="#usage">Usage:</a></li>
+</ul>
+
 
 
             <h2>API Documentation</h2>
@@ -34,6 +39,12 @@
             <li>
                     <a class="class" href="#RobotCli">RobotCli</a>
                             <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RobotCli.mark">mark</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#RobotCli.markers_close">markers_close</a>
+                        </li>
                         <li>
                                 <a class="function" href="#RobotCli.run">run</a>
                         </li>
@@ -66,46 +77,85 @@
                     <h1 class="modulename">
 <a href="./../vmodal_robot.html">vmodal_robot</a><wbr>.cli    </h1>
 
-                
-                
-                
-                
+                        <div class="docstring"><p>Uploader CLI and local source-event marker writer.</p>
+
+<h1 id="usage">Usage:</h1>
+
+<ul>
+<li>vmodal-robot status --spool_dir=./vmodal_robot_spool</li>
+<li>vmodal-robot mark "grasp slipped" --tags=failure --path=./markers.jsonl</li>
+</ul>
+</div>
+
+
+
+
             </section>
                 <section id="os_path_value">
                     <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">os_path_value</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">value</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">env_name</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">default</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#os_path_value"></a>
-    
-    
+
+
 
                 </section>
                 <section id="RobotCli">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">RobotCli</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#RobotCli"></a>
-    
-    
 
+
+
+                            <div id="RobotCli.mark" class="classattr">
+                                <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">mark</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">label</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">tags</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'./markers.jsonl'</span>,</span><span class="param">	<span class="n">source_ns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'monotonic'</span>,</span><span class="param">	<span class="n">epoch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">episode_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">uncertainty_ns</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">marker_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span><span class="return-annotation">):</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#RobotCli.mark"></a>
+
+            <div class="docstring"><p>Append one durable operator event without creating a spool or transport.</p>
+</div>
+
+
+                            </div>
+                            <div id="RobotCli.markers_close" class="classattr">
+                                <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">markers_close</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">path</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">target</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#RobotCli.markers_close"></a>
+
+            <div class="docstring"><p>Close a marker file before immutable metadata-artifact handoff.</p>
+</div>
+
+
+                            </div>
                             <div id="RobotCli.run" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">run</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">ready_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">spool_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">poll_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>,</span><span class="param">	<span class="n">request_timeout_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">120.0</span>,</span><span class="param">	<span class="n">shutdown_deadline</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">retention_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#RobotCli.run"></a>
-    
+
             <div class="docstring"><p>Continuously accept ready manifests and deliver their artifacts.</p>
 </div>
 
@@ -113,14 +163,14 @@
                             </div>
                             <div id="RobotCli.status" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">status</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">spool_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">retention_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#RobotCli.status"></a>
-    
+
             <div class="docstring"><p>Print durable backlog and delivery status as JSON.</p>
 </div>
 
@@ -128,14 +178,14 @@
                             </div>
                             <div id="RobotCli.flush" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">flush</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">spool_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">deadline_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60.0</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">retention_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#RobotCli.flush"></a>
-    
+
             <div class="docstring"><p>Stop admission and deliver the existing durable backlog.</p>
 </div>
 
@@ -144,15 +194,15 @@
                 </section>
                 <section id="main">
                     <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">main</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#main"></a>
-    
-    
+
+
 
                 </section>
     </main>

@@ -85,92 +85,92 @@
                     <h1 class="modulename">
 <a href="./../../vmodal_robot.html">vmodal_robot</a><wbr>.transports<wbr>.vmodal    </h1>
 
-                
-                
-                
-                
+
+
+
+
             </section>
                 <section id="str_destination_parts">
                     <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">str_destination_parts</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">destination</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#str_destination_parts"></a>
-    
-    
+
+
 
                 </section>
                 <section id="VmodalTransport">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">VmodalTransport</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport"></a>
-    
+
             <div class="docstring"><p>Wrap the reference SDK while keeping unqualified robot APIs explicit.</p>
 </div>
 
 
                             <div id="VmodalTransport.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">VmodalTransport</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">client</span><span class="p">:</span> <span class="n">Any</span>,</span><span class="param">	<span class="n">artifact_api</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">multipart_max_concurrency</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.client" class="classattr">
                                 <div class="attr variable">
             <span class="name">client</span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.client"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.artifact_api" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_api</span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.artifact_api"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.multipart_max_concurrency" class="classattr">
                                 <div class="attr variable">
             <span class="name">multipart_max_concurrency</span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.multipart_max_concurrency"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.capabilities" class="classattr">
                                 <div class="attr variable">
             <span class="name">capabilities</span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.capabilities"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.from_env" class="classattr">
@@ -180,10 +180,10 @@
         <span class="def">def</span>
         <span class="name">from_env</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">cls</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.from_env"></a>
-    
+
             <div class="docstring"><p>Fail before admission until a generic backend is qualified and wired here.</p>
 </div>
 
@@ -191,80 +191,80 @@
                             </div>
                             <div id="VmodalTransport.validate_capabilities" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">validate_capabilities</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">max_video_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.validate_capabilities"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.deliver" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">deliver</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">artifact</span><span class="p">:</span> <span class="n"><a href="../../vmodal_robot.html#Artifact">vmodal_robot.Artifact</a></span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n"><a href="../../vmodal_robot.html#Receipt">vmodal_robot.Receipt</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.deliver"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.reconcile" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">reconcile</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">artifact</span><span class="p">:</span> <span class="n"><a href="../../vmodal_robot.html#Artifact">vmodal_robot.Artifact</a></span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="../../vmodal_robot.html#Receipt">vmodal_robot.Receipt</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.reconcile"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.publish_revision" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">publish_revision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="n"><a href="../../vmodal_robot.html#DatasetRevision">vmodal_robot.DatasetRevision</a></span></span><span class="return-annotation">) -> <span class="n"><a href="../../vmodal_robot.html#Receipt">vmodal_robot.Receipt</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.publish_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.reconcile_revision" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">reconcile_revision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="n"><a href="../../vmodal_robot.html#DatasetRevision">vmodal_robot.DatasetRevision</a></span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="../../vmodal_robot.html#Receipt">vmodal_robot.Receipt</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.reconcile_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="VmodalTransport.close" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">close</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#VmodalTransport.close"></a>
-    
-    
+
+
 
                             </div>
                 </section>

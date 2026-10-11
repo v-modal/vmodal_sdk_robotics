@@ -24,6 +24,57 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
+                    <a class="class" href="#Marker">Marker</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Marker.__init__">Marker</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.marker_id">marker_id</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.label">label</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.tags">tags</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.source_ns">source_ns</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.clock">clock</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.epoch">epoch</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.origin">origin</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.episode_index">episode_index</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.uncertainty_ns">uncertainty_ns</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Marker.timestamp_meaning">timestamp_meaning</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="function" href="#mark">mark</a>
+            </li>
+            <li>
+                    <a class="function" href="#marker_load">marker_load</a>
+            </li>
+            <li>
+                    <a class="function" href="#marker_rotate">marker_rotate</a>
+            </li>
+            <li>
+                    <a class="function" href="#marker_attach">marker_attach</a>
+            </li>
+            <li>
                     <a class="class" href="#Artifact">Artifact</a>
                             <ul class="memberlist">
                         <li>
@@ -523,10 +574,210 @@ vmodal_robot    </h1>
                         <div class="docstring"><p>Durable, lightweight LeRobot artifact uploader.</p>
 </div>
 
-                
-                
-                
+
+
+
             </section>
+                <section id="Marker">
+                    <div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">Marker</span>:
+
+
+    </div>
+    <a class="headerlink" href="#Marker"></a>
+
+
+
+                            <div id="Marker.__init__" class="classattr">
+                                <div class="attr function">
+
+        <span class="name">Marker</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">marker_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">label</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">tags</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>,</span><span class="param">	<span class="n">source_ns</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">clock</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">epoch</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">origin</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'code'</span>,</span><span class="param">	<span class="n">episode_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">uncertainty_ns</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">timestamp_meaning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'event_recorded'</span></span>)</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.__init__"></a>
+
+
+
+                            </div>
+                            <div id="Marker.marker_id" class="classattr">
+                                <div class="attr variable">
+            <span class="name">marker_id</span><span class="annotation">: str</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.marker_id"></a>
+
+
+
+                            </div>
+                            <div id="Marker.label" class="classattr">
+                                <div class="attr variable">
+            <span class="name">label</span><span class="annotation">: str</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.label"></a>
+
+
+
+                            </div>
+                            <div id="Marker.tags" class="classattr">
+                                <div class="attr variable">
+            <span class="name">tags</span><span class="annotation">: Tuple[str, ...]</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.tags"></a>
+
+
+
+                            </div>
+                            <div id="Marker.source_ns" class="classattr">
+                                <div class="attr variable">
+            <span class="name">source_ns</span><span class="annotation">: int</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.source_ns"></a>
+
+
+
+                            </div>
+                            <div id="Marker.clock" class="classattr">
+                                <div class="attr variable">
+            <span class="name">clock</span><span class="annotation">: str</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.clock"></a>
+
+
+
+                            </div>
+                            <div id="Marker.epoch" class="classattr">
+                                <div class="attr variable">
+            <span class="name">epoch</span><span class="annotation">: str</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.epoch"></a>
+
+
+
+                            </div>
+                            <div id="Marker.origin" class="classattr">
+                                <div class="attr variable">
+            <span class="name">origin</span><span class="annotation">: str</span>        =
+<span class="default_value">&#39;code&#39;</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.origin"></a>
+
+
+
+                            </div>
+                            <div id="Marker.episode_index" class="classattr">
+                                <div class="attr variable">
+            <span class="name">episode_index</span><span class="annotation">: Optional[int]</span>        =
+<span class="default_value">None</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.episode_index"></a>
+
+
+
+                            </div>
+                            <div id="Marker.uncertainty_ns" class="classattr">
+                                <div class="attr variable">
+            <span class="name">uncertainty_ns</span><span class="annotation">: int</span>        =
+<span class="default_value">0</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.uncertainty_ns"></a>
+
+
+
+                            </div>
+                            <div id="Marker.timestamp_meaning" class="classattr">
+                                <div class="attr variable">
+            <span class="name">timestamp_meaning</span><span class="annotation">: str</span>        =
+<span class="default_value">&#39;event_recorded&#39;</span>
+
+
+    </div>
+    <a class="headerlink" href="#Marker.timestamp_meaning"></a>
+
+
+
+                            </div>
+                </section>
+                <section id="mark">
+                    <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">mark</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">label</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">tags</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">()</span>,</span><span class="param">	<span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'./markers.jsonl'</span>,</span><span class="param">	<span class="n">source_ns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'monotonic'</span>,</span><span class="param">	<span class="n">epoch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">origin</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'code'</span>,</span><span class="param">	<span class="n">episode_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">uncertainty_ns</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">marker_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">timestamp_meaning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'event_recorded'</span></span><span class="return-annotation">) -> <span class="n"><a href="#Marker">Marker</a></span>:</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#mark"></a>
+
+            <div class="docstring"><p>Persist one event. Explicit device times require their explicit reset epoch.</p>
+</div>
+
+
+                </section>
+                <section id="marker_load">
+                    <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">marker_load</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">path</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="n"><a href="#Marker">Marker</a></span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>:</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#marker_load"></a>
+
+            <div class="docstring"><p>Offline replay deduplicates identical IDs and rejects conflicting events.</p>
+</div>
+
+
+                </section>
+                <section id="marker_rotate">
+                    <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">marker_rotate</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">path</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">target</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#marker_rotate"></a>
+
+            <div class="docstring"><p>Rotate before hashing/handoff; subsequent events create a new active file.</p>
+</div>
+
+
+                </section>
+                <section id="marker_attach">
+                    <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">marker_attach</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">marker</span><span class="p">:</span> <span class="n"><a href="#Marker">Marker</a></span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">frames</span>,</span><span class="param">	<span class="n">clocks</span>,</span><span class="param">	<span class="n">profile</span>,</span><span class="param">	<span class="n">reference_clock</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">reference_epoch</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#marker_attach"></a>
+
+            <div class="docstring"><p>Offline bounded attachment; keep original events even when no frame qualifies.</p>
+</div>
+
+
+                </section>
                 <section id="Artifact">
                     <div class="attr class">
                     <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
@@ -534,132 +785,132 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">Artifact</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact"></a>
-    
-    
+
+
 
                             <div id="Artifact.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Artifact</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">contract_version</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">rel_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">byte_length</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">local_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">time_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">source_refs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.contract_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">contract_version</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.contract_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.artifact_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.artifact_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.dataset_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.dataset_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.kind" class="classattr">
                                 <div class="attr variable">
             <span class="name">kind</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.kind"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.rel_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">rel_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.rel_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.content_type" class="classattr">
                                 <div class="attr variable">
             <span class="name">content_type</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.content_type"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.byte_length" class="classattr">
                                 <div class="attr variable">
             <span class="name">byte_length</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.byte_length"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.checksum" class="classattr">
                                 <div class="attr variable">
             <span class="name">checksum</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.local_ref" class="classattr">
                                 <div class="attr variable">
             <span class="name">local_ref</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.local_ref"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_clock" class="classattr">
@@ -667,11 +918,11 @@ vmodal_robot    </h1>
             <span class="name">source_clock</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_clock"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.time_start" class="classattr">
@@ -679,11 +930,11 @@ vmodal_robot    </h1>
             <span class="name">time_start</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.time_start"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.time_end" class="classattr">
@@ -691,11 +942,11 @@ vmodal_robot    </h1>
             <span class="name">time_end</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.time_end"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Artifact.source_refs" class="classattr">
@@ -703,11 +954,11 @@ vmodal_robot    </h1>
             <span class="name">source_refs</span><span class="annotation">: Optional[Dict[str, Any]]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Artifact.source_refs"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -718,77 +969,77 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">ArtifactInput</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput"></a>
-    
-    
+
+
 
                             <div id="ArtifactInput.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">ArtifactInput</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rel_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">byte_length</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">source_clock</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">time_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">source_refs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.rel_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">rel_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.rel_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.kind" class="classattr">
                                 <div class="attr variable">
             <span class="name">kind</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.kind"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.content_type" class="classattr">
                                 <div class="attr variable">
             <span class="name">content_type</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.content_type"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_path</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.byte_length" class="classattr">
                                 <div class="attr variable">
             <span class="name">byte_length</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.byte_length"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.checksum" class="classattr">
@@ -796,11 +1047,11 @@ vmodal_robot    </h1>
             <span class="name">checksum</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_clock" class="classattr">
@@ -808,11 +1059,11 @@ vmodal_robot    </h1>
             <span class="name">source_clock</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_clock"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.time_start" class="classattr">
@@ -820,11 +1071,11 @@ vmodal_robot    </h1>
             <span class="name">time_start</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.time_start"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.time_end" class="classattr">
@@ -832,11 +1083,11 @@ vmodal_robot    </h1>
             <span class="name">time_end</span><span class="annotation">: Optional[float]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.time_end"></a>
-    
-    
+
+
 
                             </div>
                             <div id="ArtifactInput.source_refs" class="classattr">
@@ -844,11 +1095,11 @@ vmodal_robot    </h1>
             <span class="name">source_refs</span><span class="annotation">: Optional[Dict[str, Any]]</span>        =
 <span class="default_value">None</span>
 
-        
+
     </div>
     <a class="headerlink" href="#ArtifactInput.source_refs"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -859,132 +1110,132 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">DatasetRevision</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision"></a>
-    
-    
+
+
 
                             <div id="DatasetRevision.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">DatasetRevision</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">contract_version</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_format</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_version</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_revision</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">complete</span><span class="p">:</span> <span class="nb">bool</span>,</span><span class="param">	<span class="n">artifact_ids</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.contract_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">contract_version</span><span class="annotation">: int</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.contract_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.revision_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">revision_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.revision_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.dataset_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.dataset_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_format" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_format</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_format"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_version</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.destination" class="classattr">
                                 <div class="attr variable">
             <span class="name">destination</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.destination"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.source_revision" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_revision</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.source_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.complete" class="classattr">
                                 <div class="attr variable">
             <span class="name">complete</span><span class="annotation">: bool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="DatasetRevision.artifact_ids" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_ids</span><span class="annotation">: Tuple[str, ...]</span>
 
-        
+
     </div>
     <a class="headerlink" href="#DatasetRevision.artifact_ids"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -995,55 +1246,55 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">Receipt</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt"></a>
-    
-    
+
+
 
                             <div id="Receipt.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Receipt</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">remote_ref</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">status</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">checksum</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">detail</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.artifact_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifact_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.artifact_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.remote_ref" class="classattr">
                                 <div class="attr variable">
             <span class="name">remote_ref</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.remote_ref"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.status" class="classattr">
                                 <div class="attr variable">
             <span class="name">status</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.status"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.checksum" class="classattr">
@@ -1051,11 +1302,11 @@ vmodal_robot    </h1>
             <span class="name">checksum</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.checksum"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.detail" class="classattr">
@@ -1063,11 +1314,11 @@ vmodal_robot    </h1>
             <span class="name">detail</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.detail"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Receipt.checksum_verified" class="classattr">
@@ -1075,11 +1326,11 @@ vmodal_robot    </h1>
             <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Receipt.checksum_verified"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -1090,110 +1341,110 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">RevisionInput</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput"></a>
-    
-    
+
+
 
                             <div id="RevisionInput.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">RevisionInput</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">dataset_key</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_format</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_version</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">destination</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">source_revision</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">complete</span><span class="p">:</span> <span class="nb">bool</span>,</span><span class="param">	<span class="n">artifacts</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n"><a href="#ArtifactInput">ArtifactInput</a></span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>,</span><span class="param">	<span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_id" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_id</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_id"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.dataset_key" class="classattr">
                                 <div class="attr variable">
             <span class="name">dataset_key</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.dataset_key"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_format" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_format</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_format"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_version" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_version</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_version"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.destination" class="classattr">
                                 <div class="attr variable">
             <span class="name">destination</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.destination"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.source_revision" class="classattr">
                                 <div class="attr variable">
             <span class="name">source_revision</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.source_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.complete" class="classattr">
                                 <div class="attr variable">
             <span class="name">complete</span><span class="annotation">: bool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.artifacts" class="classattr">
                                 <div class="attr variable">
             <span class="name">artifacts</span><span class="annotation">: Tuple[<a href="#ArtifactInput">ArtifactInput</a>, ...]</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.artifacts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RevisionInput.manifest_path" class="classattr">
@@ -1201,223 +1452,223 @@ vmodal_robot    </h1>
             <span class="name">manifest_path</span><span class="annotation">: str</span>        =
 <span class="default_value">&#39;&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RevisionInput.manifest_path"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="Runner">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">Runner</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Runner"></a>
-    
-    
+
+
 
                             <div id="Runner.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Runner</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">adapter</span><span class="p">:</span> <span class="n"><a href="vmodal_robot/contracts.html#Adapter">vmodal_robot.contracts.Adapter</a></span>,</span><span class="param">	<span class="n">spool</span><span class="p">:</span> <span class="n"><a href="#Spool">Spool</a></span>,</span><span class="param">	<span class="n">transport</span><span class="p">:</span> <span class="n"><a href="vmodal_robot/contracts.html#Transport">vmodal_robot.contracts.Transport</a></span>,</span><span class="param">	<span class="n">cfg</span><span class="p">:</span> <span class="n"><a href="#RunnerConfig">RunnerConfig</a></span> <span class="o">=</span> <span class="n">RunnerConfig</span><span class="p">(</span><span class="n">discovery_batch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">poll_seconds</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">request_timeout_seconds</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span> <span class="n">retry_base_seconds</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">retry_max_seconds</span><span class="o">=</span><span class="mf">300.0</span><span class="p">,</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retention_seconds</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.adapter" class="classattr">
                                 <div class="attr variable">
             <span class="name">adapter</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.adapter"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.spool" class="classattr">
                                 <div class="attr variable">
             <span class="name">spool</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.spool"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.transport" class="classattr">
                                 <div class="attr variable">
             <span class="name">transport</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.transport"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.cfg" class="classattr">
                                 <div class="attr variable">
             <span class="name">cfg</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.cfg"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.complete" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">complete</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.complete"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.validate_transport" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">validate_transport</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.validate_transport"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.admit" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">admit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="#DatasetRevision">DatasetRevision</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.admit"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.recover" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">recover</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.recover"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.run_once" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">run_once</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">lane</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.run_once"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.publish_once" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">publish_once</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.publish_once"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.cycle" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">cycle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">admit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.cycle"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.run" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">run</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.run"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.flush" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">flush</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">deadline_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60.0</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.flush"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.close" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">async def</span>
         <span class="name">close</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.close"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Runner.stop" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">stop</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">deadline_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Runner.stop"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -1428,22 +1679,22 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">RunnerConfig</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig"></a>
-    
-    
+
+
 
                             <div id="RunnerConfig.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">RunnerConfig</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">discovery_batch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>,</span><span class="param">	<span class="n">poll_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>,</span><span class="param">	<span class="n">request_timeout_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">120.0</span>,</span><span class="param">	<span class="n">retry_base_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>,</span><span class="param">	<span class="n">retry_max_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span>,</span><span class="param">	<span class="n">max_attempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>,</span><span class="param">	<span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.discovery_batch" class="classattr">
@@ -1451,11 +1702,11 @@ vmodal_robot    </h1>
             <span class="name">discovery_batch</span><span class="annotation">: int</span>        =
 <span class="default_value">100</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.discovery_batch"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.poll_seconds" class="classattr">
@@ -1463,11 +1714,11 @@ vmodal_robot    </h1>
             <span class="name">poll_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">1.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.poll_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.request_timeout_seconds" class="classattr">
@@ -1475,11 +1726,11 @@ vmodal_robot    </h1>
             <span class="name">request_timeout_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">120.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.request_timeout_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retry_base_seconds" class="classattr">
@@ -1487,11 +1738,11 @@ vmodal_robot    </h1>
             <span class="name">retry_base_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">1.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retry_base_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retry_max_seconds" class="classattr">
@@ -1499,11 +1750,11 @@ vmodal_robot    </h1>
             <span class="name">retry_max_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">300.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retry_max_seconds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.max_attempts" class="classattr">
@@ -1511,11 +1762,11 @@ vmodal_robot    </h1>
             <span class="name">max_attempts</span><span class="annotation">: int</span>        =
 <span class="default_value">0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.max_attempts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="RunnerConfig.retention_seconds" class="classattr">
@@ -1523,570 +1774,570 @@ vmodal_robot    </h1>
             <span class="name">retention_seconds</span><span class="annotation">: float</span>        =
 <span class="default_value">0.0</span>
 
-        
+
     </div>
     <a class="headerlink" href="#RunnerConfig.retention_seconds"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="Spool">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">Spool</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#Spool"></a>
-    
-    
+
+
 
                             <div id="Spool.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">Spool</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">cfg</span><span class="p">:</span> <span class="n"><a href="#SpoolConfig">SpoolConfig</a></span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.cfg" class="classattr">
                                 <div class="attr variable">
             <span class="name">cfg</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.cfg"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.root" class="classattr">
                                 <div class="attr variable">
             <span class="name">root</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.root"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.obj_dir" class="classattr">
                                 <div class="attr variable">
             <span class="name">obj_dir</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.obj_dir"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.db_path" class="classattr">
                                 <div class="attr variable">
             <span class="name">db_path</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.db_path"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.db" class="classattr">
                                 <div class="attr variable">
             <span class="name">db</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.db"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.last_cleanup" class="classattr">
                                 <div class="attr variable">
             <span class="name">last_cleanup</span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.last_cleanup"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.close" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">close</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.close"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.reject" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">reject</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'invalid'</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.reject"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.clear_rejection" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">clear_rejection</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">manifest_path</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.clear_rejection"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">accept</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">item</span><span class="p">:</span> <span class="n"><a href="#RevisionInput">RevisionInput</a></span></span><span class="return-annotation">) -> <span class="n"><a href="#DatasetRevision">DatasetRevision</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.reject_accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">reject_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item</span><span class="p">:</span> <span class="n"><a href="#RevisionInput">RevisionInput</a></span>, </span><span class="param"><span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.reject_accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.prepare_accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">prepare_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item</span><span class="p">:</span> <span class="n"><a href="#RevisionInput">RevisionInput</a></span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.prepare_accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.copy_accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">copy_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>, </span><span class="param"><span class="n">stop_event</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.copy_accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.abandon_accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">abandon_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.abandon_accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.commit_accept" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">commit_accept</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">plan</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="#DatasetRevision">DatasetRevision</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.commit_accept"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.get_artifact" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">get_artifact</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n"><a href="#Artifact">Artifact</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.get_artifact"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.artifact_state" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">artifact_state</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.artifact_state"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.artifact_attempts" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">artifact_attempts</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.artifact_attempts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.get_revision" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">get_revision</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n"><a href="#DatasetRevision">DatasetRevision</a></span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.get_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.sending" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">sending</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">lane</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n"><a href="#Artifact">Artifact</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.sending"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.claim" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">claim</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">lane</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n"><a href="#Artifact">Artifact</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.claim"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_acknowledged" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_acknowledged</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">receipt</span><span class="p">:</span> <span class="n"><a href="#Receipt">Receipt</a></span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_acknowledged"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.recover_unverified" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">recover_unverified</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.recover_unverified"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_retry" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_retry</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">delay</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_retry"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_ready" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_ready</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_ready"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_blocked" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_blocked</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">artifact_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_blocked"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_uncertain" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_uncertain</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">delay</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">revision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_uncertain"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.uncertain_due" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">uncertain_due</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">revision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.uncertain_due"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.claim_revision" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">claim_revision</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="#DatasetRevision">DatasetRevision</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.claim_revision"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.sending_revisions" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">sending_revisions</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="#DatasetRevision">DatasetRevision</a></span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.sending_revisions"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.revision_attempts" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">revision_attempts</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.revision_attempts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.revision_state" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">revision_state</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.revision_state"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.blocked_count" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">blocked_count</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.blocked_count"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.deferred_count" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">deferred_count</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.deferred_count"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_revision_ready" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_revision_ready</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_revision_ready"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_revision_acknowledged" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_revision_acknowledged</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">receipt</span><span class="p">:</span> <span class="n"><a href="#Receipt">Receipt</a></span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_revision_acknowledged"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_revision_retry" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_revision_retry</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">delay</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_revision_retry"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.mark_revision_blocked" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">mark_revision_blocked</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">revision_id</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.mark_revision_blocked"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.pending_count" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">pending_count</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.pending_count"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.status" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.status"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.cleanup" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">cleanup</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.cleanup"></a>
-    
-    
+
+
 
                             </div>
                             <div id="Spool.os_recover" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="def">def</span>
         <span class="name">os_recover</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-        
+
     </div>
     <a class="headerlink" href="#Spool.os_recover"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -2097,33 +2348,33 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">SpoolConfig</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig"></a>
-    
-    
+
+
 
                             <div id="SpoolConfig.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">SpoolConfig</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10737418240</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">536870912</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">104857600</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="SpoolConfig.root" class="classattr">
                                 <div class="attr variable">
             <span class="name">root</span><span class="annotation">: str</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.root"></a>
-    
-    
+
+
 
                             </div>
                             <div id="SpoolConfig.max_bytes" class="classattr">
@@ -2131,11 +2382,11 @@ vmodal_robot    </h1>
             <span class="name">max_bytes</span><span class="annotation">: int</span>        =
 <span class="default_value">10737418240</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.max_bytes"></a>
-    
-    
+
+
 
                             </div>
                             <div id="SpoolConfig.aux_reserve_bytes" class="classattr">
@@ -2143,11 +2394,11 @@ vmodal_robot    </h1>
             <span class="name">aux_reserve_bytes</span><span class="annotation">: int</span>        =
 <span class="default_value">536870912</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.aux_reserve_bytes"></a>
-    
-    
+
+
 
                             </div>
                             <div id="SpoolConfig.max_records" class="classattr">
@@ -2155,11 +2406,11 @@ vmodal_robot    </h1>
             <span class="name">max_records</span><span class="annotation">: int</span>        =
 <span class="default_value">10000</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.max_records"></a>
-    
-    
+
+
 
                             </div>
                             <div id="SpoolConfig.max_video_bytes" class="classattr">
@@ -2167,11 +2418,11 @@ vmodal_robot    </h1>
             <span class="name">max_video_bytes</span><span class="annotation">: int</span>        =
 <span class="default_value">104857600</span>
 
-        
+
     </div>
     <a class="headerlink" href="#SpoolConfig.max_video_bytes"></a>
-    
-    
+
+
 
                             </div>
                 </section>
@@ -2182,24 +2433,24 @@ vmodal_robot    </h1>
     <span class="def">class</span>
     <span class="name">TransportCapabilities</span>:
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities"></a>
-    
+
             <div class="docstring"><p>Declared qualification evidence; stable names alone do not establish idempotency.</p>
 </div>
 
 
                             <div id="TransportCapabilities.__init__" class="classattr">
                                 <div class="attr function">
-            
+
         <span class="name">TransportCapabilities</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">artifact_kinds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">104857600</span>,</span><span class="param">	<span class="n">durable_receipts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">checksum_verified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">artifact_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_publication</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_idempotency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">revision_reconciliation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.__init__"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_kinds" class="classattr">
@@ -2207,11 +2458,11 @@ vmodal_robot    </h1>
             <span class="name">artifact_kinds</span><span class="annotation">: Tuple[str, ...]</span>        =
 <span class="default_value">()</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_kinds"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.max_video_bytes" class="classattr">
@@ -2219,11 +2470,11 @@ vmodal_robot    </h1>
             <span class="name">max_video_bytes</span><span class="annotation">: int</span>        =
 <span class="default_value">104857600</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.max_video_bytes"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.durable_receipts" class="classattr">
@@ -2231,11 +2482,11 @@ vmodal_robot    </h1>
             <span class="name">durable_receipts</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.durable_receipts"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.checksum_verified" class="classattr">
@@ -2243,11 +2494,11 @@ vmodal_robot    </h1>
             <span class="name">checksum_verified</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.checksum_verified"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_idempotency" class="classattr">
@@ -2255,11 +2506,11 @@ vmodal_robot    </h1>
             <span class="name">artifact_idempotency</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_idempotency"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.artifact_reconciliation" class="classattr">
@@ -2267,11 +2518,11 @@ vmodal_robot    </h1>
             <span class="name">artifact_reconciliation</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.artifact_reconciliation"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_publication" class="classattr">
@@ -2279,11 +2530,11 @@ vmodal_robot    </h1>
             <span class="name">revision_publication</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_publication"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_idempotency" class="classattr">
@@ -2291,11 +2542,11 @@ vmodal_robot    </h1>
             <span class="name">revision_idempotency</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_idempotency"></a>
-    
-    
+
+
 
                             </div>
                             <div id="TransportCapabilities.revision_reconciliation" class="classattr">
@@ -2303,24 +2554,24 @@ vmodal_robot    </h1>
             <span class="name">revision_reconciliation</span><span class="annotation">: bool</span>        =
 <span class="default_value">False</span>
 
-        
+
     </div>
     <a class="headerlink" href="#TransportCapabilities.revision_reconciliation"></a>
-    
-    
+
+
 
                             </div>
                 </section>
                 <section id="TransportUnknown">
                     <div class="attr class">
-            
+
     <span class="def">class</span>
     <span class="name">TransportUnknown</span><wbr>(<span class="base"><a href="vmodal_robot/contracts.html#TransportRetry">vmodal_robot.contracts.TransportRetry</a></span>):
 
-        
+
     </div>
     <a class="headerlink" href="#TransportUnknown"></a>
-    
+
             <div class="docstring"><p>Remote absence could not be established; retain the uncertain claim.</p>
 </div>
 
@@ -2329,13 +2580,13 @@ vmodal_robot    </h1>
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;0.1.0&#39;</span>
+<span class="default_value">&#39;0.2.0&#39;</span>
 
-        
+
     </div>
     <a class="headerlink" href="#__version__"></a>
-    
-    
+
+
 
                 </section>
     </main>
