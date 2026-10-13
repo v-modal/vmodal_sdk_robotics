@@ -106,14 +106,19 @@ def test5():
     assert "uinterface/sdk_ros_robot/**" in text
     assert "v-modal/vmodal_sdk_robotics" in text
     assert "needs: [secret_detection, offline_test, package]" in text
-    assert "public_release_filter.txt" in text
-    assert "git push --atomic" in text
-    assert "trufflehog" in text
+    script = open("release.sh", "r", encoding="utf-8").read()
+    assert "public_release_filter.txt" in script
+    assert "git push --atomic" in script
+    assert "trufflehog" in script
+    for name in ("secret_detection", "test", "build", "export", "verify_public", "version",
+                 "credentials", "token_check", "publish", "docs_build", "docs_publish"):
+        assert f"robot_release_{name}" in text, name
+        assert f"robot_release_{name}()" in script, name
     pub = text.split("\n  publish_sdk_robot:\n", 1)[1].split("\n  sdk_docs_artifact:\n", 1)[0]
     before_install = pub.split("- name: Verify clean public installation", 1)[0]
     assert "uses: actions/setup-python@" in before_install
     assert 'python-version: "3.11"' in before_install
-    assert "'packaging>=24.2,<27'" in pub
+    assert "'packaging>=24.2,<27'" in script
 
 
 def test6():
@@ -197,6 +202,51 @@ def test7():
     assert "optional vmodal SDK import blocked" in required.stderr
 
 
+def test8():
+    """Release helpers support direct and sourced calls and reject incomplete docs."""
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    script = os.path.join(root, "release.sh")
+    if not os.path.isfile(script):
+        log_info("Public standalone source: release helper belongs to the source monorepo")
+        return
+    env = dict(os.environ, PATH=os.path.dirname(sys.executable) + os.pathsep + os.environ["PATH"])
+    output = subprocess.check_output(["bash", script, "--help"], cwd="/tmp", env=env, text=True)
+    assert "robot_release_publish" in output
+    proc = subprocess.run(["bash", script, "unknown"], env=env, text=True, capture_output=True)
+    assert proc.returncode != 0
+    assert "Unknown release command" in proc.stderr
+    output = subprocess.check_output(["bash", "-c", 'source "$1"; pwd', "bash", script],
+                                     cwd=root, env=env, text=True)
+    assert output.strip() == root
+    data = pd_fake_data("release_docs")
+    docs = os.path.abspath(os.path.join(data["root"], "docs"))
+    os_makedirs(docs)
+    paths = ("index.html", "vmodal_robot.html", "vmodal_robot/contracts.html", "vmodal_robot/runner.html",
+             "vmodal_robot/spool.html", "vmodal_robot/adapters/lerobot.html", "vmodal_robot/transports/vmodal.html",
+             "vmodal_robot/cli.html", "vmodal_robot/markers.html", "vmodal_robot/reconciliation/temporal.html",
+             "vmodal_robot/reconciliation/dataset.html")
+    for name in paths:
+        path = os.path.join(docs, name)
+        os_makedirs(os.path.dirname(path))
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write("<html></html>")
+    subprocess.run(["bash", script, "robot_release_docs_check", docs], env=env, check=True)
+    os.remove(os.path.join(docs, paths[-1]))
+    proc = subprocess.run(["bash", script, "robot_release_docs_check", docs], env=env)
+    assert proc.returncode != 0
+    output = subprocess.check_output([sys.executable, "utils.py", "str_robot_version", "--source=" + os.path.join(root, "src")],
+                                     cwd=root, env=env, text=True)
+    assert output.strip() == __version__
+    public = os.path.abspath(os.path.join(data["root"], "public"))
+    os_makedirs(public)
+    os.symlink(root, os.path.join(public, "lerobot"))
+    env["GITHUB_ENV"] = os.path.abspath(os.path.join(data["root"], "github_env"))
+    output = subprocess.check_output(["bash", script, "robot_release_version", public],
+                                     cwd="/tmp", env=env, text=True)
+    assert output.strip() == __version__
+    assert open(env["GITHUB_ENV"], "r", encoding="utf-8").read() == f"SDK_VERSION={__version__}\n"
+
+
 def test_all():
     os_makedirs(dirtest)
     test1()
@@ -206,6 +256,7 @@ def test_all():
     test5()
     test6()
     test7()
+    test8()
     log_info("test_artifacts: all passed")
 
 

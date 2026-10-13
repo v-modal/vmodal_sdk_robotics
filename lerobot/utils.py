@@ -60,3 +60,15 @@ def os_compare_trees(expected: Path, actual: Path) -> None:
     changed = sorted(str(path) for path in left if left[path] != right[path])
     if changed:
         raise ValueError(f"docs_sdk content is stale: {changed}")
+
+
+def str_robot_version(source: str = "") -> str:
+    """Import the exported source or installed SDK and report its version."""
+    if source:
+        sys.path.insert(0, os.path.abspath(source))
+    from vmodal_robot import __version__
+    return __version__
+
+
+if __name__ == '__main__':
+    fire.Fire({"str_robot_version": str_robot_version})
