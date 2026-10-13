@@ -15,7 +15,9 @@ bash examples/record_bag.sh record /data/bags/run-001 /data/closed /chatter
 ```
 
 The wrapper forwards termination to `ros2 bag record`, waits for its successful
-exit, then writes a durable `.closed` journal record. A ROS subscription on
+exit, then writes a durable `.closed` journal record. It uses Linux GNU `env` to
+reset inherited background signal dispositions before launching the recorder.
+A ROS subscription on
 `/vmodal/closed_bag` also accepts absolute paths in `std_msgs/msg/String`, using
 reliable/transient-local QoS. A recorder integration may publish that notification
 after closing and fsyncing all storage files. Persist the completion journal at

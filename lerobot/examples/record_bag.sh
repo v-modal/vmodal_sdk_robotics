@@ -15,7 +15,9 @@ robot_record() {
   local bag_dir="$1" closed_dir="$2" pid result=0
   shift 2
   [[ "$bag_dir" = /* && "$closed_dir" = /* ]] || { echo "$help"; return 1; }
-  ros2 bag record -o "$bag_dir" "$@" &
+  # Bash background jobs inherit ignored SIGINT; Jazzy honors that disposition.
+  # Reset it before exec so forwarded termination actually closes the recorder.
+  env --default-signal=INT,TERM ros2 bag record -o "$bag_dir" "$@" &
   pid=$!
   trap 'kill -INT "$pid" 2>/dev/null || true' INT TERM
   while true; do

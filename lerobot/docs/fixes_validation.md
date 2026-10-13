@@ -32,6 +32,10 @@ implementation and expands the surrounding integration/installation coverage.
 - Humble native `bash ros2_test.sh test /tmp/vmodal-ros-final`: passed, including
   real bag recording, actual manifest-node event, recorder SIGTERM wrapper,
   installed-wheel CLI and ROS traffic before/after the full suite.
+- Jazzy / Ubuntu 24.04 / Python 3.12 native `bash ros2_test.sh test`: passed with
+  the same live-node/bag, recorder SIGTERM, complete assertion and package checks.
+  The recorder wrapper resets inherited background SIGINT before exec, so Jazzy
+  can shut down and journal completion after supervisor SIGTERM.
 - Actual MinIO built from upstream release source at commit
   `0d7408fc9969caf07de6a8c3a84f9fbb10a6739e`: all four native kinds, repeated
   delivery/publication, downloaded-byte verification, descriptors and ACK-gated
