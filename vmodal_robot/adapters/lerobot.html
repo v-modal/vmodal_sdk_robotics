@@ -30,6 +30,12 @@
                                 <a class="function" href="#LeRobotAdapter.__init__">LeRobotAdapter</a>
                         </li>
                         <li>
+                                <a class="variable" href="#LeRobotAdapter.source_format">source_format</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LeRobotAdapter.source_version">source_version</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#LeRobotAdapter.ready_dir">ready_dir</a>
                         </li>
                         <li>
@@ -37,6 +43,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#LeRobotAdapter.admission_feedback">admission_feedback</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#LeRobotAdapter.discovery_status">discovery_status</a>
                         </li>
                         <li>
                                 <a class="function" href="#LeRobotAdapter.drain_errors">drain_errors</a>
@@ -95,6 +104,30 @@
 
 
                             </div>
+                            <div id="LeRobotAdapter.source_format" class="classattr">
+                                <div class="attr variable">
+            <span class="name">source_format</span>        =
+<span class="default_value">&#39;lerobot&#39;</span>
+
+
+    </div>
+    <a class="headerlink" href="#LeRobotAdapter.source_format"></a>
+
+
+
+                            </div>
+                            <div id="LeRobotAdapter.source_version" class="classattr">
+                                <div class="attr variable">
+            <span class="name">source_version</span>        =
+<span class="default_value">&#39;v3&#39;</span>
+
+
+    </div>
+    <a class="headerlink" href="#LeRobotAdapter.source_version"></a>
+
+
+
+                            </div>
                             <div id="LeRobotAdapter.ready_dir" class="classattr">
                                 <div class="attr variable">
             <span class="name">ready_dir</span>
@@ -130,6 +163,25 @@
     <a class="headerlink" href="#LeRobotAdapter.admission_feedback"></a>
 
             <div class="docstring"><p>Confirm committed admission or release a handoff for a later fair poll.</p>
+</div>
+
+
+                            </div>
+                            <div id="LeRobotAdapter.discovery_status" class="classattr">
+                                <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">discovery_status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#LeRobotAdapter.discovery_status"></a>
+
+            <div class="docstring"><p>Count current manifest stamps in this adapter instance, including unpolled work.</p>
+
+<p>Outcomes reset on adapter restart; the spool retains the last timestamped
+snapshot for observers. A changed stamp becomes unseen until rediscovered.
+Directory/stat races are best-effort; no artifact payloads are read here.</p>
 </div>
 
 

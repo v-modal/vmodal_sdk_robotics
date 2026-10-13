@@ -372,6 +372,12 @@
                                 <a class="variable" href="#Spool.db">db</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Spool.last_cleanup">last_cleanup</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.record_retention">record_retention</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Spool.close">close</a>
                         </li>
                         <li>
@@ -469,6 +475,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Spool.pending_count">pending_count</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Spool.record_discovery">record_discovery</a>
                         </li>
                         <li>
                                 <a class="function" href="#Spool.status">status</a>
@@ -1789,17 +1798,14 @@ vmodal_robot    </h1>
     </div>
     <a class="headerlink" href="#Spool"></a>
 
-            <div class="docstring"><p>Exclusive durable owner of one root; same-ID artifact/revision contracts are immutable.</p>
-
-<p>Competing opens fail before recovery can remove another admission's copies.
-Closing the spool or exiting its process releases ownership.</p>
+            <div class="docstring"><p>Exclusive durable writer; readonly observers skip recovery and filesystem mutation.</p>
 </div>
 
 
                             <div id="Spool.__init__" class="classattr">
                                 <div class="attr function">
 
-        <span class="name">Spool</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">cfg</span><span class="p">:</span> <span class="n"><a href="#SpoolConfig">SpoolConfig</a></span></span>)</span>
+        <span class="name">Spool</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">cfg</span><span class="p">:</span> <span class="n"><a href="#SpoolConfig">SpoolConfig</a></span>, </span><span class="param"><span class="n">readonly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
 
     </div>
@@ -1859,6 +1865,30 @@ Closing the spool or exiting its process releases ownership.</p>
 
     </div>
     <a class="headerlink" href="#Spool.db"></a>
+
+
+
+                            </div>
+                            <div id="Spool.last_cleanup" class="classattr">
+                                <div class="attr variable">
+            <span class="name">last_cleanup</span>
+
+
+    </div>
+    <a class="headerlink" href="#Spool.last_cleanup"></a>
+
+
+
+                            </div>
+                            <div id="Spool.record_retention" class="classattr">
+                                <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">record_retention</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">seconds</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">):</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#Spool.record_retention"></a>
 
 
 
@@ -2292,11 +2322,26 @@ Closing the spool or exiting its process releases ownership.</p>
 
 
                             </div>
+                            <div id="Spool.record_discovery" class="classattr">
+                                <div class="attr function">
+
+        <span class="def">def</span>
+        <span class="name">record_discovery</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">snapshot</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></span><span class="return-annotation">):</span></span>
+
+
+    </div>
+    <a class="headerlink" href="#Spool.record_discovery"></a>
+
+            <div class="docstring"><p>Persist the last adapter observation; its timestamp exposes staleness.</p>
+</div>
+
+
+                            </div>
                             <div id="Spool.status" class="classattr">
                                 <div class="attr function">
 
         <span class="def">def</span>
-        <span class="name">status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">retention_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
+        <span class="name">status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">retention_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>:</span></span>
 
 
     </div>
@@ -2348,7 +2393,7 @@ Closing the spool or exiting its process releases ownership.</p>
                             <div id="SpoolConfig.__init__" class="classattr">
                                 <div class="attr function">
 
-        <span class="name">SpoolConfig</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10737418240</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">536870912</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">104857600</span></span>)</span>
+        <span class="name">SpoolConfig</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">root</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">max_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10737418240</span>,</span><span class="param">	<span class="n">aux_reserve_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">536870912</span>,</span><span class="param">	<span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span>,</span><span class="param">	<span class="n">max_video_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1073741824</span></span>)</span>
 
 
     </div>
@@ -2407,7 +2452,7 @@ Closing the spool or exiting its process releases ownership.</p>
                             <div id="SpoolConfig.max_video_bytes" class="classattr">
                                 <div class="attr variable">
             <span class="name">max_video_bytes</span><span class="annotation">: int</span>        =
-<span class="default_value">104857600</span>
+<span class="default_value">1073741824</span>
 
 
     </div>
@@ -2571,7 +2616,7 @@ Closing the spool or exiting its process releases ownership.</p>
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;0.2.0&#39;</span>
+<span class="default_value">&#39;0.2.2&#39;</span>
 
 
     </div>
