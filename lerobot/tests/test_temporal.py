@@ -82,6 +82,10 @@ def test3():
     arrived=replace(left,availability_ns=91_000_000,availability_clock="host",availability_epoch="epoch-0")
     assert temporal_video(req,[arrived],clocks+[hostclock],replace(profile,require_availability=True)).reason=="future_availability"
     assert temporal_video(req,[replace(left,source_ns=99_000_000,exposure_meaning="start",exposure_duration_ns=4_000_000)],clocks,replace(profile,causal=True)).reason == "future_evidence"
+    # A per-camera causal policy also excludes exposures finishing after target.
+    camera_causal = replace(profile, policies={"camera": "causal"})
+    exposed = replace(left, source_ns=99_000_000, exposure_meaning="start", exposure_duration_ns=4_000_000)
+    assert temporal_video(req,[exposed],clocks,camera_causal).reason == "future_evidence"
     assert temporal_video(req,[left],clocks,replace(profile,budgets_ns={"camera":1_000_000})).reason == "uncertainty_exceeds_budget"
     assert temporal_video(req,[left],clocks,replace(profile,max_age_ns={})).reason == "missing_age_budget"
 
@@ -135,6 +139,18 @@ def test6():
     assert temporal_action(req,[replace(cmds[0],apply_start_ns=None)],clocks,profile).reason=="action_apply_unknown"
     unknown=replace(cmds[1],apply_start_ns=99_000_000,apply_end_ns=101_000_000)
     assert temporal_action(req,[unknown],clocks,profile).reason=="action_apply_unknown"
+    # An old active command cannot prove which command applies during a switch.
+    assert temporal_action(req,[cmds[0],unknown],clocks,profile).reason=="action_apply_unknown"
+    unqualified=replace(cmds[1],apply_start_ns=None,apply_end_ns=None)
+    assert temporal_action(req,[cmds[0],unqualified],clocks,profile).reason=="action_apply_unknown"
+    slow_switch=replace(cmds[0],source_id="slow-switch",source_ns=90_000_000,apply_start_ns=90_000_000,apply_end_ns=98_000_000)
+    assert temporal_action(req,[cmds[0],slow_switch],clocks,profile).reason=="uncertainty_exceeds_budget"
+    assert temporal_action(req,[slow_switch,cmds[0]],clocks,profile).reason=="uncertainty_exceeds_budget"
+    expired=replace(unqualified,source_ns=90_000_000,effective_end_ns=95_000_000)
+    assert temporal_action(req,[cmds[0],expired],clocks,profile).sources==(cmds[0],)
+    ending=replace(cmds[0],source_id="ending-command",effective_end_ns=100_000_000,uncertainty_ns=100_000)
+    assert temporal_action(req,[cmds[0],ending],clocks,profile).reason=="action_effective_end_unknown"
+    assert temporal_action(req,[cmds[0],replace(ending,epoch="unmapped-epoch")],clocks,profile).reason=="clock_epoch_mismatch"
     assert temporal_action(req,[cmds[0],replace(cmds[0],source_id="duplicate-active")],clocks,profile).reason=="ambiguous_action"
     supervised=replace(profile,policies={"action":"supervised"},budgets_ns={"action":2_000_000})
     assert temporal_action(req,cmds,clocks,supervised).sources==(cmds[1],)

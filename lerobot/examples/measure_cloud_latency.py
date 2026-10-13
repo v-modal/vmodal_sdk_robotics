@@ -8,7 +8,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
+from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
 import asyncio
 import math
@@ -312,4 +312,4 @@ def live(config_file, output, live=False):
 
 
 if __name__ == '__main__':
-    fire.Fire({"report": report, "live": live}, name="measure-cloud-latency")
+    fire.Fire({"report": report, "live": live})

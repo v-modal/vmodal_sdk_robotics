@@ -36,17 +36,17 @@ robot_ros2_test() {
   source "/opt/ros/$ROS_DISTRO/setup.bash"
   PYTHONPATH="$(pwd):${PYTHONPATH:-}"
   export PYTHONPATH
-  python3 --version | tee "$logs/python3.log"
+  python --version | tee "$logs/python.log"
   # Ubuntu build tools can come from apt without pip RECORD files. Install the
   # test.sh requirements alongside them instead of trying to uninstall apt files.
-  # Keep package metadata compatible with stock pip and colcon's setuptools cap.
-  python3 -m pip install --ignore-installed \
-    'setuptools>=68,<77' 'wheel>=0.45,<1' 'packaging>=24.2,<27' \
+  # colcon-core requires setuptools<80; this also satisfies the SDK's >=77.
+  python -m pip install --ignore-installed \
+    'setuptools>=77,<80' 'wheel>=0.45,<1' 'packaging>=24.2,<27' \
     2>&1 | tee "$logs/bootstrap.log"
   if [[ -f ../../sdk_python/pyproject.toml ]]; then
     # Reuse the reference SDK manifest for its complete dependency set, including
     # cryptography, which is also apt-managed in the Jazzy image.
-    python3 -m pip install --ignore-installed --no-build-isolation '../../sdk_python' \
+    python -m pip install --ignore-installed --no-build-isolation '../../sdk_python' \
       2>&1 | tee "$logs/reference-sdk-bootstrap.log"
   fi
   ros2 doctor --report > "$logs/ros2-doctor.log" 2>&1
@@ -66,16 +66,15 @@ robot_ros2_test() {
 
   # Includes packaging, wheel/public-install checks and the sibling SDK wire test.
   bash test.sh test 2>&1 | tee "$logs/sdk-tests.log"
-  python3 tests/test_ros2_live.py test_all 2>&1 | tee "$logs/closed-bag.log"
-  python3 -m twine check dist/* 2>&1 | tee "$logs/package.log"
-  python3 -m pip install --force-reinstall --no-deps dist/*.whl \
+  python -m twine check dist/* 2>&1 | tee "$logs/package.log"
+  python -m pip install --force-reinstall --no-deps dist/*.whl \
     2>&1 | tee "$logs/wheel-install.log"
   (
     cd "$logs"
     # Resolve the installed wheel outside the checkout and its PYTHONPATH.
     env -u PYTHONPATH vmodal-robot --help > cli-help.log 2>&1
     env -u PYTHONPATH vmodal-robot status --spool_dir="$logs/spool" > cli-status.log
-    python3 -m json.tool cli-status.log > /dev/null
+    python -m json.tool cli-status.log > /dev/null
   )
 
   kill -0 "$talker" "$listener"

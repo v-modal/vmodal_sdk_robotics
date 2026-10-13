@@ -115,6 +115,42 @@ def pd_fake_dataset(name="researcher"):
     return dict(data, item=item, native=native, bundles=bundles, paths=paths)
 
 
+class FakeNativeRows(list):
+    """Bound full-table scans so a scaling regression fails without a long wait."""
+    scans = 0
+
+    def __iter__(self):
+        self.scans += 1
+        assert self.scans <= 2, "native validation repeatedly scans the complete row table"
+        return super().__iter__()
+
+
+def pd_fake_native_scale(native, count=5000):
+    """Build independent episode rows sharing media shards for scaling checks."""
+    value = copy.deepcopy(native)
+    value["episodes"], value["rows"] = [], []
+    for ep in range(count):
+        episode = copy.deepcopy(native["episodes"][0])
+        episode.update(episode_index=ep, row_start=ep*2, row_end=ep*2+2,
+                       start_index=ep*2, reference_start_ns=ep*200_000_000)
+        for bound in episode["video_bounds"].values():
+            bound.update(start_pts=ep*200, end_pts=ep*200+200)
+        value["episodes"].append(episode)
+        for frame, template in enumerate(native["rows"][:2]):
+            row = copy.deepcopy(template)
+            row.update(episode_index=ep, index=ep*2+frame, row_ordinal=ep*2+frame)
+            for key, feature in value["features"].items():
+                if feature["dtype"] == "video":
+                    row["features"][key]["pts"] = ep*200+frame*100
+            value["rows"].append(row)
+    # Deliberately unsorted input verifies grouping does not change ownership.
+    value["episodes"].reverse()
+    value["rows"].reverse()
+    value["rows"] = FakeNativeRows(value["rows"])
+    info = dict(fps=value["fps"], features=value["features"], total_frames=count*2, total_episodes=count)
+    return value, info
+
+
 class FakeArchive:
     """A separate byte store with no producer path, spool or transport fallback."""
     def __init__(self, payloads):

@@ -17,7 +17,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass, field, asdict, replace
 import os,sys
 import fire
-from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
+from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
 from fractions import Fraction
 from vmodal_robot.contracts import ContractError
@@ -322,11 +322,14 @@ def _setup(request, sources, clocks, profile, kind):
     for src in vals:
         val = _mapped(request, src, clocks)
         if val.status != "valid":
+            if kind == "action" and policy == "active" and src.valid:
+                # An unplaced competing command cannot be proven inactive.
+                return key, [], _fail(key, kind, val.reason, policy)
             reasons.append(val.reason)
             continue
         if not src.valid:
             continue
-        if profile.causal:
+        if profile.causal or policy in ("causal", "hold"):
             stamp = val.time_ns
             if src.kind == "video":
                 clock = next(c for c in clocks if c.transform_id == val.transform_id)
@@ -523,14 +526,28 @@ def temporal_action(request, commands, clocks, profile):
         raise ContractError("unsupported action policy")
     candidates, reasons = [], []
     for src,val in rows:
+        if policy == "active":
+            # A command definitely issued in the future cannot be active yet.
+            if val.time_ns-val.uncertainty_ns > request.target_ns+request.uncertainty_ns:
+                continue
         if src.apply_start_ns is None or src.apply_end_ns is None or src.effective_end_ns is None:
+            if policy == "active":
+                if src.effective_end_ns is not None:
+                    expiry = _mapped(request,src,clocks,src.effective_end_ns)
+                    if expiry.status == "valid" and expiry.time_ns+expiry.uncertainty_ns <= request.target_ns-request.uncertainty_ns:
+                        continue
+                return _fail(key,"action","action_apply_unknown",policy)
             reasons.append("action_apply_unknown")
             continue
         if not _interval_qualified(request,src,clocks,src.apply_start_ns,src.effective_end_ns):
+            if policy == "active":
+                return _fail(key,"action","outside_transform_interval",policy)
             reasons.append("outside_transform_interval")
             continue
         a,b,e = (_mapped(request,src,clocks,t) for t in (src.apply_start_ns,src.apply_end_ns,src.effective_end_ns))
         if any(v.status != "valid" for v in (a,b,e)):
+            if policy == "active":
+                return _fail(key,"action","outside_transform_interval",policy)
             reasons.append("outside_transform_interval")
             continue
         if e.time_ns <= b.time_ns:
@@ -538,8 +555,9 @@ def temporal_action(request, commands, clocks, profile):
         unc = max(a.uncertainty_ns,b.uncertainty_ns,e.uncertainty_ns)+request.uncertainty_ns
         if policy == "active":
             if a.time_ns-unc <= request.target_ns < b.time_ns+unc:
-                reasons.append("action_apply_unknown")
-                continue
+                return _fail(key,"action","action_apply_unknown",policy)
+            if b.time_ns+unc <= request.target_ns and e.time_ns-unc <= request.target_ns < e.time_ns+unc:
+                return _fail(key,"action","action_effective_end_unknown",policy)
             eligible = b.time_ns+unc <= request.target_ns < e.time_ns-unc
         else:
             if profile.causal:
@@ -549,6 +567,8 @@ def temporal_action(request, commands, clocks, profile):
             continue
         apply_unc = b.time_ns-a.time_ns+unc
         if apply_unc > profile.budgets_ns[key]:
+            if policy == "active":
+                return _fail(key,"action","uncertainty_exceeds_budget",policy)
             reasons.append("uncertainty_exceeds_budget")
             continue
         candidates.append((src,val,b,e,apply_unc))

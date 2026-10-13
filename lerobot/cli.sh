@@ -14,7 +14,7 @@ robot_cli() {
     bash cli.sh status --spool_dir=/var/lib/vmodal-robot
   '
   : "$help"
-  python3 -m vmodal_robot.cli "$@"
+  python -m vmodal_robot.cli "$@"
 }
 
 robot_cli "$@"

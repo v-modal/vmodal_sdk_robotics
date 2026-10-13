@@ -1,7 +1,55 @@
 [build-system]
-requires = ["setuptools>=68,<77", "wheel>=0.45,<1", "packaging>=24.2,<27"]
+requires = ["setuptools>=77", "wheel", "packaging>=24.2,<27"]
 build-backend = "setuptools.build_meta"
 
-# setup.cfg is authoritative metadata, including static name and dynamic version.
-# Ubuntu 22.04 pip 22.0.2 can load distro setuptools during isolated builds;
-# that backend understands setup.cfg but silently ignores PEP 621 metadata.
+[project]
+name = "vmodal-robotics"
+dynamic = ["version"]
+description = "Durable LeRobot uploader and offline multimodal reconciliation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "v-modal" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: POSIX :: Linux",
+]
+dependencies = ["fire>=0.6.0,<1"]
+
+[project.optional-dependencies]
+vmodal = ["vmodal>=1.0.0,<2"]
+dev = ["build>=1.2.1,<2", "twine>=5.1.0,<7", "setuptools>=77,<85", "wheel>=0.45,<1", "packaging>=24.2,<27"]
+docs = ["pdoc==15.0.4"]
+
+[project.scripts]
+vmodal-robot = "vmodal_robot.cli:main"
+
+[project.urls]
+Repository = "https://github.com/v-modal/vmodal_sdk_robotics"
+Documentation = "https://v-modal.github.io/vmodal_sdk_robotics/"
+
+[tool.setuptools]
+packages = [
+  "src",
+  "src.utils",
+  "vmodal_robot",
+  "vmodal_robot.adapters",
+  "vmodal_robot.transports",
+  "vmodal_robot.reconciliation",
+]
+
+[tool.setuptools.package-dir]
+src = "src"
+"src.utils" = "src/utils"
+vmodal_robot = "src/vmodal_robot"
+"vmodal_robot.adapters" = "src/vmodal_robot/adapters"
+"vmodal_robot.transports" = "src/vmodal_robot/transports"
+"vmodal_robot.reconciliation" = "src/vmodal_robot/reconciliation"
+
+[tool.setuptools.dynamic]
+version = {attr = "vmodal_robot.__version__"}

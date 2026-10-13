@@ -31,7 +31,7 @@ It then requires another fresh ROS message and confirms the listener received
 data. Node processes are stopped on success or failure. Logs are uploaded even
 when testing fails; distributions are uploaded only after all checks pass.
 
-On an existing Linux ROS installation with `demo_nodes_py`, `python3` pointing to
+On an existing Linux ROS installation with `demo_nodes_py`, `python` pointing to
 the ROS system interpreter, pip and rsync installed, run from `lerobot/`:
 
 ```bash
@@ -43,17 +43,12 @@ virtualenvs. Its step-local `PIP_BREAK_SYSTEM_PACKAGES=1` permits this on Ubuntu
 24.04; it is not SDK runtime configuration.
 The helper installs the required setuptools, wheel and packaging build tools
 alongside Ubuntu's apt-managed versions, which pip cannot uninstall reliably.
-Setuptools is restricted to `>=68,<77`; compatible `setup.cfg` metadata also
-works when stock Ubuntu 22.04 pip loads distro setuptools during isolation.
-The workflow runs `python3 -m pip install .` before bootstrap, checks the installed
-distribution name, and runs its CLI outside the checkout. No `python` symlink is
-created. This catches both rejected names and silently empty UNKNOWN wheels.
+Setuptools is restricted to `>=77,<80` to satisfy both the SDK and colcon.
 When the sibling Python SDK exists, its manifest also supplies the dependency
 bootstrap, including cryptography, without uninstalling apt-managed packages.
 
-The native integration additionally records `/chatter` using ros2 bag, closes it,
-notifies the actual manifest node, and admits the native bag through RosbagAdapter.
-LeRobot assertion tests use synthetic artifacts and fake receivers. A separate
-job verifies the worked S3 transport against actual MinIO. These checks do not
-establish robot hardware, Gazebo, every storage provider or search readiness.
-All public jobs depend on a secret-detection gate.
+This is SDK compatibility and concurrent ROS runtime testing. The SDK consumes
+finalized LeRobot manifests, not ROS topics; the suite uses synthetic artifacts
+and fake receivers. It does not establish robot hardware, Gazebo simulation,
+ROS topic ingestion, or cloud delivery guarantees. Publication remains in
+`sdk_robot_test_release.yml`, with its existing secret-detection gate.

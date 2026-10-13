@@ -17,6 +17,21 @@ is `accepted` only after the spool commit. Capacity/I/O failures are `deferred`;
 immutable malformed input is `rejected` until its content changes. Eligible batch
 limits apply after filtering and deferred work rotates fairly.
 
+Each spool root has one exclusive owner, enforced by a nonblocking process lock
+before database migration or filesystem recovery. A competing `Spool` open fails
+with `spool already in use`; closing the owner or process exit releases the lock.
+The current CLI `status` opens a spool for recovery too, so stop its owner before
+running that command. An embedded integration can call its existing owner's
+`status()` method on the SQLite owner thread while the runner is active. Do not
+delete `state.lock`: removing the lock file would allow competing owners.
+
+Persisted artifact IDs bind both bytes and their descriptors. Reusing an ID with
+changed kind, MIME type, length, source clock, timing, or `source_refs` is rejected
+as an immutable contract conflict. Publish corrected descriptors under a new
+artifact path; their existing IDs and receipts remain unchanged. Reusing a
+revision ID with changed format, version, or `complete` is rejected too; publish
+that correction with a new `source_revision`. Exact replay remains deduplicated.
+
 For the existing V-Modal bridge, supply
 `VmodalTransport(client, artifact_api=qualified_api)`. Its generic API provides:
 
@@ -73,9 +88,7 @@ ACK payloads longer. Retained byte/record quotas release after cleanup; SQLite I
 and receipts remain as deduplication history and grow over time.
 
 `max_video_bytes` is exposed by `run`, `flush`, and `status`, with
-`VMODAL_ROBOT_MAX_VIDEO_BYTES`; the local default is 1,073,741,824 bytes (1 GiB).
-The worked [S3/MinIO transport](s3_transport.md) supports that default without
-using the reference SDK's separate 100 MiB upload preflight.
+`VMODAL_ROBOT_MAX_VIDEO_BYTES`; the default is 104,857,600 bytes (100 MiB).
 200 decimal MB is 200,000,000 bytes. A producer's shard target is not a strict
 guaranteed maximum. Admission is all-or-nothing: an oversized bundled video
 defers telemetry too. For independent telemetry, emit a separate complete

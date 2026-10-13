@@ -4,7 +4,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
+from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
 import math
 
@@ -96,4 +96,4 @@ def accept_hit(hit: Dict[str, Any], scope: Dict[str, Any], profile: Dict[str, An
 
 
 if __name__ == '__main__':
-    fire.Fire({"accept_hit": accept_hit}, name="search-acceptance")
+    fire.Fire()

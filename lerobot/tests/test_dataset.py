@@ -12,13 +12,14 @@ from src.utils.util_base import os_makedirs, os_path_cleanup
 
 import copy
 import io
+import time
 from unittest.mock import patch
 from vmodal_robot.reconciliation.dataset import (dataset_inventory, dataset_native_validate, dataset_alignment,
                                                 dataset_prepare, dataset_ready, dataset_descriptor, dataset_recover)
 from vmodal_robot.adapters.lerobot import LeRobotAdapter
 from vmodal_robot.utils import os_read_bytes, os_write_bytes, str_sha256_bytes, str_json_canonical
 from tests.utils_datafake import pd_fake_dataset
-from tests.utils_dataset_fake import pd_fake_archive, pd_rejected
+from tests.utils_dataset_fake import pd_fake_archive, pd_rejected, pd_fake_native_scale
 
 dirtest="ztmp/ztests"
 
@@ -94,6 +95,11 @@ def test4():
     data = pd_fake_dataset("dataset_native_negatives")
     inventory = dataset_inventory(data["dataset"], data["item"].artifacts)
     info = dict(fps=10, features=data["native"]["features"], total_frames=4, total_episodes=2)
+    native, large_info = pd_fake_native_scale(data["native"])
+    start = time.perf_counter()
+    report = dataset_native_validate(native, inventory, large_info)
+    log_info(f"native validation: {report['episodes']} episodes, {report['samples']} rows, {time.perf_counter()-start:.3f}s")
+    assert report["episodes"] == 5000 and report["samples"] == 10000
     changes = [("physical ordinal", lambda n: n["rows"][2].update(row_ordinal=100)),
                ("timestamp grid", lambda n: n["rows"][1].update(timestamp_ns=99_000_000)),
                ("task is absent", lambda n: n["rows"][0].update(task_index=9)),
@@ -106,6 +112,11 @@ def test4():
         change(native)
         with pd_rejected(reason):
             dataset_native_validate(native, inventory, info)
+    # Numeric PTS ranges that differ can still overlap on rational media time.
+    native = copy.deepcopy(data["native"])
+    native["episodes"][1]["video_bounds"]["observation.images.front"]["time_base_den"] = 2000
+    with pd_rejected("overlapping"):
+        dataset_native_validate(native, inventory, info)
     bundles = copy.deepcopy(data["bundles"])
     bundles[0]["request"]["target_ns"] = 1
     with pd_rejected("retimes"):

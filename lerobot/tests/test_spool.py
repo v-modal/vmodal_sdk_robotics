@@ -9,15 +9,19 @@ import asyncio
 import json
 import errno
 import sqlite3
+import select
+import signal
+import subprocess
 from dataclasses import replace
 from unittest.mock import patch
 
 from vmodal_robot.adapters.lerobot import LeRobotAdapter
 from vmodal_robot.runner import Runner, RunnerConfig
 from vmodal_robot.spool import Spool, SpoolConfig
-from vmodal_robot.contracts import Receipt, SpoolFull, TransportCapabilities, TransportUnknown
+from vmodal_robot.contracts import ContractError, Receipt, SpoolFull, TransportCapabilities, TransportUnknown
 from vmodal_robot.utils import str_sha256_file
 from tests.utils_datafake import FakeTransport, pd_fake_data
+from tests.utils_temporal_fake import ContractRaises
 
 
 dirtest="ztmp/ztests"
@@ -314,6 +318,8 @@ def _legacy_ack_check():
 
 
 def test9():
+    _immutable_contract_check()
+    _ownership_check()
     data = pd_fake_data("spool_four_names")
     item = LeRobotAdapter(data["ready"]).discover()[0]
     first_video = item.artifacts[0]
@@ -338,6 +344,67 @@ def test9():
     assert not os.path.exists(orphan)
     assert os.path.isfile(unknown)
     spool.close()
+
+
+def _immutable_contract_check():
+    data = pd_fake_data("spool_immutable_contract_audit")
+    item = LeRobotAdapter(data["ready"]).discover()[0]
+    spool = Spool(SpoolConfig(os.path.join(data["root"], "spool"), max_bytes=100000, aux_reserve_bytes=1000))
+    revision = spool.accept(item)
+    for fields in ({"source_refs": {"episodes": [99]}}, {"time_start": 2.0},
+                   {"time_end": 9.0}, {"source_clock": "different-clock"},
+                   {"kind": "opaque"}, {"content_type": "different/type"}):
+        changed = replace(item.artifacts[0], **fields)
+        with ContractRaises(ContractError, "immutable artifact contract conflict"):
+            spool.accept(replace(item, source_revision="corrected", artifacts=(changed,) + item.artifacts[1:]))
+    for fields in ({"complete": False}, {"source_format": "different"}, {"source_version": "v4"}):
+        with ContractRaises(ContractError, "immutable revision contract conflict"):
+            spool.accept(replace(item, **fields))
+    assert spool.get_revision(revision.revision_id) == revision
+    assert spool.db.execute("SELECT COUNT(*) FROM revisions").fetchone()[0] == 1
+    assert spool.status()["record_count"] == len(item.artifacts)
+    assert not spool._preparing
+    spool.close()
+
+
+def _hold_spool(root):
+    spool = Spool(SpoolConfig(root, max_bytes=100000, aux_reserve_bytes=1000))
+    print("LOCKED", flush=True)
+    signal.pause()
+
+
+def _ownership_check():
+    data = pd_fake_data("spool_single_owner_audit")
+    item = LeRobotAdapter(data["ready"]).discover()[0]
+    cfg = SpoolConfig(os.path.join(data["root"], "spool"), max_bytes=100000, aux_reserve_bytes=1000)
+    spool = Spool(cfg)
+    plan = spool.prepare_accept(item)
+    spool.copy_accept(plan)
+    paths = list(plan["copied"])
+    with ContractRaises(RuntimeError, "spool already in use"):
+        Spool(cfg)
+    assert all(os.path.isfile(path) for path in paths)
+    revision = spool.commit_accept(plan)
+    spool.close()
+    with Spool(cfg) as reopened:
+        assert reopened.get_revision(revision.revision_id) == revision
+    with patch.object(Spool, "_schema", side_effect=OSError("startup failure")):
+        with ContractRaises(OSError, "startup failure"):
+            Spool(cfg)
+    with Spool(cfg) as reopened:
+        assert reopened.get_revision(revision.revision_id) == revision
+    with subprocess.Popen([sys.executable, __file__, "_hold_spool", "--root=" + cfg.root],
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True) as child:
+        try:
+            assert select.select([child.stdout], [], [], 3)[0], "child must acquire the lock"
+            assert child.stdout.readline().strip() == "LOCKED"
+            with ContractRaises(RuntimeError, "spool already in use"):
+                Spool(cfg)
+        finally:
+            child.kill()
+            child.wait(timeout=3)
+    with Spool(cfg) as reopened:
+        assert reopened.get_revision(revision.revision_id) == revision
 
 
 def test5():

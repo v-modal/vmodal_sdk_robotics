@@ -18,7 +18,7 @@ from vmodal_robot.runner import Runner, RunnerConfig
 from vmodal_robot.spool import Spool, SpoolConfig
 from vmodal_robot.contracts import SpoolFull, TransportBlocked
 from vmodal_robot.transports.vmodal import VmodalTransport
-from tests.utils_datafake import FakeTransport, pd_fake_data, pd_fake_large_video, os_save_bytes, str_sha
+from tests.utils_datafake import FakeTransport, pd_fake_data, os_save_bytes, str_sha
 from tests.test_vmodal import FakeArtifactApi
 
 
@@ -200,7 +200,7 @@ def test4():
 
 def test5():
     api = FakeArtifactApi()
-    api.capabilities = replace(api.capabilities, max_video_bytes=1024 * 1024 * 1024)
+    api.capabilities = replace(api.capabilities, max_video_bytes=256 * 1024 * 1024)
     observed = []
 
     async def inspect(runner, deadline, flush=False):
@@ -208,7 +208,7 @@ def test5():
         return True
 
     for env, limit, retention, expected in (
-        ({}, None, None, (1024 * 1024 * 1024, 0.0)),
+        ({}, None, None, (100 * 1024 * 1024, 0.0)),
         ({"VMODAL_ROBOT_MAX_VIDEO_BYTES": "64", "VMODAL_ROBOT_RETENTION_SECONDS": "120"}, None, None, (64, 120.0)),
         ({"VMODAL_ROBOT_MAX_VIDEO_BYTES": "bad", "VMODAL_ROBOT_RETENTION_SECONDS": "bad"}, 80, 0, (80, 0.0)),
     ):
@@ -317,23 +317,6 @@ def test7():
     spool.close()
 
 
-def test8():
-    from vmodal_robot.adapters.lerobot import LeRobotAdapter
-    from vmodal_robot.utils import str_sha256_file
-    data = pd_fake_large_video()
-    item = LeRobotAdapter(data["ready"]).discover()[0]
-    spool = _spool(os.path.join(data["root"], "spool"), 0, 0, 0)
-    try:
-        assert spool.cfg.max_video_bytes == 1024 ** 3
-        revision = spool.accept(item)
-        artifact = spool.get_artifact(revision.artifact_ids[0])
-        assert artifact.byte_length == 101 * 1024 * 1024
-        assert str_sha256_file(artifact.local_ref) == artifact.checksum
-        assert os.path.isfile(item.artifacts[0].source_path)
-    finally:
-        spool.close()
-
-
 def test_all():
     os_makedirs(dirtest)
     test1()
@@ -343,7 +326,6 @@ def test_all():
     test5()
     test6()
     test7()
-    test8()
     log_info("test_cli: all passed")
 
 

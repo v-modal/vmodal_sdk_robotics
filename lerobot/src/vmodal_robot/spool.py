@@ -2,10 +2,11 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
+from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
 import json
 import errno
+import fcntl
 import shutil
 import sqlite3
 import time
@@ -14,6 +15,7 @@ import uuid
 from .contracts import (
     CONTRACT_VERSION,
     Artifact,
+    ContractError,
     DatasetRevision,
     Receipt,
     RevisionInput,
@@ -28,10 +30,16 @@ class SpoolConfig:
     max_bytes: int = 10 * 1024 * 1024 * 1024
     aux_reserve_bytes: int = 512 * 1024 * 1024
     max_records: int = 10000
-    max_video_bytes: int = 1024 * 1024 * 1024
+    max_video_bytes: int = 100 * 1024 * 1024
 
 
 class Spool:
+    """Exclusive durable owner of one root; same-ID artifact/revision contracts are immutable.
+
+    Competing opens fail before recovery can remove another admission's copies.
+    Closing the spool or exiting its process releases ownership.
+    """
+
     def __init__(self, cfg: SpoolConfig):
         if cfg.max_bytes <= 0 or cfg.max_records <= 0:
             raise ValueError("max_bytes and max_records must be positive")
@@ -46,19 +54,31 @@ class Spool:
         os_fsync_dir(self.root)
         os_fsync_dir(os.path.dirname(self.root))
         self.db_path = os.path.join(self.root, "state.sqlite3")
-        self.db = sqlite3.connect(self.db_path)
-        self.db.row_factory = sqlite3.Row
-        self.db.execute("PRAGMA journal_mode=WAL")
-        self.db.execute("PRAGMA synchronous=FULL")
-        self.last_cleanup = None
-        self._preparing = False
-        columns = {row["name"] for row in self.db.execute("PRAGMA table_info(rejections)")}
-        receipts = {row["name"] for row in self.db.execute("PRAGMA table_info(receipts)")}
-        needs_backup = (bool(columns) and "category" not in columns) or (bool(receipts) and "checksum_verified" not in receipts)
-        self._migration_deferred = needs_backup and not self._backup()
-        self._legacy_schema = bool(columns) and "category" not in columns and self._migration_deferred
-        self._schema()
-        self.os_recover()
+        self.db = None
+        self._lock = open(os.path.join(self.root, "state.lock"), "a+b")
+        try:
+            try:
+                fcntl.flock(self._lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise RuntimeError(f"spool already in use: {self.root}") from None
+            self.db = sqlite3.connect(self.db_path)
+            self.db.row_factory = sqlite3.Row
+            self.db.execute("PRAGMA journal_mode=WAL")
+            self.db.execute("PRAGMA synchronous=FULL")
+            self.last_cleanup = None
+            self._preparing = False
+            columns = {row["name"] for row in self.db.execute("PRAGMA table_info(rejections)")}
+            receipts = {row["name"] for row in self.db.execute("PRAGMA table_info(receipts)")}
+            needs_backup = (bool(columns) and "category" not in columns) or (bool(receipts) and "checksum_verified" not in receipts)
+            self._migration_deferred = needs_backup and not self._backup()
+            self._legacy_schema = bool(columns) and "category" not in columns and self._migration_deferred
+            self._schema()
+            self.os_recover()
+        except BaseException:
+            if self.db is not None:
+                self.db.close()
+            self._lock.close()
+            raise
 
     def _schema(self):
         self.db.executescript(
@@ -179,7 +199,10 @@ class Spool:
     def close(self):
         if self._preparing:
             raise RuntimeError("finish spool admission copy before closing SQLite")
-        self.db.close()
+        try:
+            self.db.close()
+        finally:
+            self._lock.close()
 
     def __enter__(self):
         return self
@@ -278,14 +301,22 @@ class Spool:
                 )
             artifact_id = str_stable_id(dataset_id, source.rel_path, source.checksum)
             lane = "video" if source.kind == "video" else "aux"
+            old = self.db.execute("SELECT * FROM artifacts WHERE artifact_id=?", (artifact_id,)).fetchone()
+            if old:
+                fields = ("kind", "content_type", "byte_length", "source_clock", "time_start", "time_end")
+                if any(old[key] != getattr(source, key) for key in fields) or json.loads(old["source_refs_json"]) != (source.source_refs or {}):
+                    raise ContractError(f"immutable artifact contract conflict: {source.rel_path}; use a new artifact path")
             rows.append((source, artifact_id, lane))
 
         artifact_ids = tuple(row[1] for row in rows)
         revision_id = str_stable_id(dataset_id, item.source_revision, *artifact_ids)
         old = self.db.execute(
-            "SELECT revision_id FROM revisions WHERE revision_id=?", (revision_id,)
+            "SELECT * FROM revisions WHERE revision_id=?", (revision_id,)
         ).fetchone()
         if old:
+            fields = ("source_format", "source_version", "complete")
+            if any(old[key] != getattr(item, key) for key in fields):
+                raise ContractError("immutable revision contract conflict; use a new source_revision")
             return {"item": item, "revision_id": revision_id, "old": True}
 
         missing = [row for row in rows if not self.db.execute(

@@ -9,7 +9,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass, replace
 import os,sys
 import fire
-from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
+from src.utils.util_log import log_info, log_error, log_trace, log_warning
 
 import json
 import math
@@ -54,6 +54,9 @@ def dataset_native_validate(native: Dict[str, Any], inventory, info: Dict[str, A
     Exact feature declarations include dtype, shape, component names, units and
     coordinate/action semantics supplied by the caller. Native timestamps remain
     integer nanoseconds; no retiming or row repair is performed here.
+    Rows are grouped once by episode. Shared-shard camera ownership is checked
+    on sorted rational media intervals, including different declared time bases,
+    rather than scanning the full row table or every episode pair repeatedly.
     """
     paths = {value["path"]: value for value in inventory}
     if native.get("schema_version") != 1 or not native.get("producer_version") or not native.get("source_revision") or not native.get("dataset_id"):
@@ -105,6 +108,12 @@ def dataset_native_validate(native: Dict[str, Any], inventory, info: Dict[str, A
     row_ids = set()
     physical = set()
     matched = set()
+    members_by_ep = {}
+    for row in rows:
+        if type(row["episode_index"]) is not int or row["episode_index"] < 0:
+            raise ContractError("integer native episode identity required")
+        members_by_ep.setdefault(row["episode_index"], []).append(row)
+    media_intervals = {}
     for episode in episodes:
         ep = episode["episode_index"]
         if not isinstance(ep, int) or isinstance(ep, bool) or ep < 0 or ep in ep_ids:
@@ -131,7 +140,9 @@ def dataset_native_validate(native: Dict[str, Any], inventory, info: Dict[str, A
                 raise ContractError("integer PTS/rational time base required")
             if bound["end_pts"] <= bound["start_pts"] or min(bound["time_base_num"], bound["time_base_den"]) <= 0:
                 raise ContractError("invalid camera episode interval")
-        members = sorted((row for row in rows if row["episode_index"] == ep), key=lambda row: row["frame_index"])
+            rate = Fraction(bound["time_base_num"], bound["time_base_den"])
+            media_intervals.setdefault((camera, bound["path"]), []).append((bound["start_pts"]*rate, bound["end_pts"]*rate))
+        members = sorted(members_by_ep.get(ep, []), key=lambda row: row["frame_index"])
         if len(members) != length:
             raise ContractError("episode length differs from decoded row inventory")
         prev = None
@@ -171,13 +182,10 @@ def dataset_native_validate(native: Dict[str, Any], inventory, info: Dict[str, A
     if len(matched) != len(rows):
         raise ContractError("row references unknown episode")
     # Shared shards may contain real capture gaps; reject overlapping ownership.
-    for camera in cameras:
-        for i, left in enumerate(episodes):
-            a = left["video_bounds"][camera]
-            for right in episodes[i + 1:]:
-                b = right["video_bounds"][camera]
-                if a["path"] == b["path"] and max(a["start_pts"], b["start_pts"]) < min(a["end_pts"], b["end_pts"]):
-                    raise ContractError("overlapping shared-shard episode video intervals")
+    for intervals in media_intervals.values():
+        ordered = sorted(intervals)
+        if any(right[0] < left[1] for left, right in zip(ordered, ordered[1:])):
+            raise ContractError("overlapping shared-shard episode video intervals")
     return dict(status="valid", samples=len(rows), episodes=len(episodes),
                 feature_profile_id=native["feature_profile_id"], scanner_version=native["scanner_version"],
                 source_kind=native["source_kind"],

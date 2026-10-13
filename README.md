@@ -44,7 +44,7 @@ Requirements:
    manager; do not create a new virtual environment unless the project already
    requires one.
 2. Install the tagged package from the public repository using:
-   vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.1#subdirectory=lerobot
+   vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.0#subdirectory=lerobot
    Add it to the project's existing dependency file with an exact tag. Do not
    install from an unpinned main branch.
 3. Configure a persistent spool directory outside temporary storage. Use
@@ -125,15 +125,15 @@ motion plan, safety action, or recording cycle can proceed.
 Install the lean core from the tagged LeRobot subdirectory:
 
 ```bash
-python3 -m pip install \
-  "vmodal-robotics @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.1#subdirectory=lerobot"
+python -m pip install \
+  "vmodal-robotics @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.0#subdirectory=lerobot"
 ```
 
 Add the V-Modal cloud transport when you need it:
 
 ```bash
-python3 -m pip install \
-  "vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.1#subdirectory=lerobot"
+python -m pip install \
+  "vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.0#subdirectory=lerobot"
 ```
 
 Point it at the directory where your recorder atomically publishes ready
@@ -152,14 +152,6 @@ Operate it without guesswork:
 vmodal-robot status --spool_dir=/var/lib/vmodal-robot
 vmodal-robot flush  --spool_dir=/var/lib/vmodal-robot --deadline_seconds=120
 ```
-
-Provision `/var/lib/vmodal-robot` for the service user before first run, or set
-`VMODAL_ROBOT_SPOOL_DIR` to an absolute persistent directory you own. The CLI's
-fallback is `./vmodal_robot_spool`, relative to its working directory. See the
-[spool provisioning commands](lerobot/README.md#boot-it-on-a-robot).
-The local per-video default is now 1 GiB; qualified backend limits still apply.
-For ordinary object storage, use the [worked S3/MinIO transport](lerobot/docs/s3_transport.md).
-For automated native bag handoff, use the [ROS 2 manifest node](lerobot/docs/ros2_manifest.md).
 
 `status` returns machine-readable queue depth, bytes per lane, oldest item age,
 disk headroom, retries, rejections, blocked items, and the latest receipt.
