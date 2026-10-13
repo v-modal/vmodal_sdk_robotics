@@ -43,6 +43,15 @@ implementation and expands the surrounding integration/installation coverage.
 - Secret-detection gate and shell syntax / git whitespace checks: passed.
 - Session-scoped data-contract/import/wiring audit: no outstanding findings.
 
+## Public CI evidence
+
+[Public run 38376941494](https://github.com/v-modal/vmodal_sdk_robotics/actions/runs/38376941494)
+passed every job on implementation commit `303b12a4620a5017b1449c06c33ee2f60dc0db8c`:
+secret detection, Humble / Python 3.10, Jazzy / Python 3.12 and actual MinIO.
+Both native jobs exercise the unmodified README install command before build-tool
+bootstrap, the full assertion/package suite, live closed-bag handoff and recorder
+SIGTERM. The final publication adds this evidence and the completed plan only.
+
 ## Install diagnosis
 
 Compatible setuptools metadata lives in `setup.cfg` with static package name and

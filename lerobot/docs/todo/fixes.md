@@ -183,10 +183,14 @@ leave producer data and uncertain payloads untouched.
 
 ## Implementation status
 
-Implementation is in public branch `fix/robotics-reliability`. The original public
+Implementation is published on public `main` and tagged `v0.2.1`, with development
+branch `fix/robotics-reliability`. The original public
 baseline's discovery, drain and cleanup fixes are preserved and verified. New
 work covers a 1 GiB local video default, clean stock-pip installation, qualified
 runtime namespace, explicit Fire entry points, native ROS bag manifest automation,
 and a worked asynchronous S3 transport. Actual MinIO is built from pinned upstream
 source because its former public image and binary URLs are unavailable. See
-`../fixes_validation.md` for final test evidence and deployment limits.
+[fixes_validation.md](https://github.com/v-modal/vmodal_sdk_robotics/blob/main/lerobot/docs/fixes_validation.md)
+for final test evidence and deployment limits. Public CI run
+[38376941494](https://github.com/v-modal/vmodal_sdk_robotics/actions/runs/38376941494)
+passed Humble, Jazzy, actual MinIO and the secret-detection gate.
