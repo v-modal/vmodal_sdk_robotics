@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import asyncio
 import random
@@ -40,6 +40,7 @@ class Runner:
         self.spool = spool
         self.transport = transport
         self.cfg = cfg
+        self.spool.record_retention(cfg.retention_seconds)
         self._stop = False
         self._recovered = False
         self._recover_lock = asyncio.Lock()
@@ -114,20 +115,35 @@ class Runner:
         self.spool.cleanup(self.cfg.retention_seconds)
         revisions = []
         feedback = getattr(self.adapter, "admission_feedback", None)
-        for item in self.adapter.discover(self.cfg.discovery_batch):
-            if self._stop:
-                break
-            try:
-                revisions.append(self.spool.accept(item))
-                outcome = "accepted"
-            except (SpoolFull, OSError) as exc:
-                outcome = "deferred"
-                log_warning("handoff deferred", manifest=item.manifest_path, reason=str(exc))
-            except Exception as exc:
-                outcome = "rejected"
-                log_error("handoff rejected", manifest=item.manifest_path, reason=str(exc))
+        snapshot = getattr(self.adapter, "discovery_status", None)
+        items = self.adapter.discover(self.cfg.discovery_batch)
+        processed = 0
+        if snapshot is not None:
+            self.spool.record_discovery(snapshot())
+        try:
+            for item in items:
+                if self._stop:
+                    break
+                try:
+                    revisions.append(self.spool.accept(item))
+                    outcome = "accepted"
+                except (SpoolFull, OSError) as exc:
+                    outcome = "deferred"
+                    log_warning("handoff deferred", manifest=item.manifest_path, reason=str(exc))
+                except Exception as exc:
+                    outcome = "rejected"
+                    log_error("handoff rejected", manifest=item.manifest_path, reason=str(exc))
+                if feedback is not None:
+                    feedback(item, outcome)
+                processed += 1
+        finally:
+            if processed < len(items):
+                self._admission_incomplete = True
             if feedback is not None:
-                feedback(item, outcome)
+                for item in items[processed:]:
+                    feedback(item, "deferred")
+            if snapshot is not None:
+                self.spool.record_discovery(snapshot())
         drain = getattr(self.adapter, "drain_errors", None)
         if drain is not None:
             for path, reason in drain():
@@ -158,8 +174,18 @@ class Runner:
         self.spool.cleanup(self.cfg.retention_seconds)
         revisions = []
         feedback = getattr(self.adapter, "admission_feedback", None)
-        items = await self._filesystem(self.adapter.discover, self.cfg.discovery_batch)
+        snapshot = getattr(self.adapter, "discovery_status", None)
+        items = []
+        processed = 0
+
+        def discover():
+            # The join in _filesystem preserves returned handoffs even on cancellation.
+            items.extend(self.adapter.discover(self.cfg.discovery_batch))
+
         try:
+            await self._filesystem(discover)
+            if snapshot is not None:
+                await self._record_discovery(snapshot)
             for item in items:
                 if self._stop:
                     break
@@ -190,17 +216,34 @@ class Runner:
                         self.spool.abandon_accept(plan)
                     if feedback is not None:
                         feedback(item, outcome)
+                    processed += 1
         finally:
+            if processed < len(items):
+                self._admission_incomplete = True
             if feedback is not None:
-                for item in items:
-                    if self._stop:
-                        feedback(item, "deferred")
+                for item in items[processed:]:
+                    feedback(item, "deferred")
+            if snapshot is not None:
+                await self._record_discovery(snapshot)
         drain = getattr(self.adapter, "drain_errors", None)
         if drain is not None:
             for path, reason in drain():
                 self.spool.reject(path, reason)
                 log_error("manifest rejected", manifest=path, reason=reason)
         return revisions
+
+    async def _record_discovery(self, snapshot):
+        values = []
+
+        def observe():
+            values.append(snapshot())
+
+        try:
+            await self._filesystem(observe)
+        finally:
+            # Repeated stop/cancel still joins observation and persists its outcome.
+            if values:
+                self.spool.record_discovery(values[0])
 
     def _delay(self, attempts: int) -> float:
         base = min(self.cfg.retry_max_seconds, self.cfg.retry_base_seconds * (2 ** min(30, max(0, attempts - 1))))

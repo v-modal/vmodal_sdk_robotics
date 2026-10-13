@@ -17,7 +17,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass, field, asdict, replace
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 from fractions import Fraction
 from vmodal_robot.contracts import ContractError

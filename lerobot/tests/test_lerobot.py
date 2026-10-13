@@ -73,15 +73,21 @@ def test5():
     adapter = LeRobotAdapter(data["ready"])
     assert adapter.discover(0) == []
     assert adapter.discover(-1) == []
+    assert adapter.discovery_status()["unseen"] == 250
     revisions = []
     for size in (100, 100, 50):
         items = adapter.discover(100)
         assert len(items) == size
+        status = adapter.discovery_status()
+        assert status["manifests_present"] == 250
+        assert status["pending"] == size
+        assert status["unseen"] == 250 - len(revisions) - size
         for item in items:
             adapter.admission_feedback(item, "accepted")
             revisions.append(item.source_revision)
     assert len(set(revisions)) == 250
     assert adapter.discover() == []
+    assert adapter.discovery_status()["admitted"] == 250
     path = os.path.join(data["ready"], "000-new.ready.json")
     with open(path, "w", encoding="utf-8") as handle:
         json.dump(dict(data["data"], source_revision="new"), handle)
@@ -98,6 +104,7 @@ def test6():
     adapter = LeRobotAdapter(data["ready"])
     first = adapter.discover(1)[0]
     adapter.admission_feedback(first, "deferred")
+    assert adapter.discovery_status()["deferred"] == 1
     found = []
     for _ in range(4):
         item = adapter.discover(1)[0]
@@ -106,6 +113,8 @@ def test6():
     assert len(set(found)) == 4
     assert first.source_revision in found
     assert adapter.discover() == []
+    assert adapter.discovery_status()["deferred"] == 0
+    assert adapter.discovery_status()["admitted"] == 4
 
 
 def test7():
@@ -115,10 +124,13 @@ def test7():
     assert len(adapter.drain_errors()) == 1
     assert adapter.discover() == []
     assert adapter.drain_errors() == []
+    assert adapter.discovery_status()["rejected"] == 1
     with open(data["manifest"], "w", encoding="utf-8") as handle:
         json.dump(dict(data["data"], source_version="v3", source_revision="corrected"), handle)
+    assert adapter.discovery_status()["unseen"] == 1
     item = adapter.discover()[0]
     adapter.admission_feedback(item, "rejected")
+    assert adapter.discovery_status()["rejected"] == 1
     assert adapter.discover() == []
     with open(data["manifest"], "w", encoding="utf-8") as handle:
         json.dump(dict(data["data"], source_version="v3", source_revision="corrected-again"), handle)

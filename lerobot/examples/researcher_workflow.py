@@ -10,10 +10,10 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 from vmodal_robot.reconciliation.dataset import dataset_prepare, dataset_ready, dataset_recover
-from src.utils.util_base import os_path_cleanup
+from vmodal_robot._support.util_base import os_path_cleanup
 
 
 def run(name="researcher_demo"):
@@ -33,4 +33,4 @@ def run(name="researcher_demo"):
 
 
 if __name__ == "__main__":
-    fire.Fire()
+    fire.Fire({"run": run}, name="researcher-workflow")

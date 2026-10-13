@@ -1,0 +1,16 @@
+[Unit]
+Description=VModal robot spool Prometheus exporter
+After=vmodal-robot.service
+RequiresMountsFor=/var/lib/vmodal-robot
+
+[Service]
+Type=simple
+User=vmodal-robot
+Group=vmodal-robot
+ExecStart=/usr/bin/python3 -m vmodal_robot.monitoring serve --spool_dir=/var/lib/vmodal-robot --host=127.0.0.1 --port=9108
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

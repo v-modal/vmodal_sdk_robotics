@@ -42,8 +42,8 @@ also race delivery claims and cleanup.
 **Fix:** hold a nonblocking exclusive OS lock on `state.lock` for the lifetime
 of a spool, acquired before database migration/recovery. A competing opener
 fails clearly. Release the lock on close and failed initialization; process
-termination releases it through the OS. Because the current `status` command
-opens this same recovering spool, stop its owner before using CLI status.
+termination releases it through the OS. The issue v2 follow-up adds read-only
+status/metrics connections, so observers can run while the writer holds its lock.
 
 **Verification:** subprocess regressions check exclusion during admission,
 release on close, SIGKILL, and failed initialization. Existing spool crash,

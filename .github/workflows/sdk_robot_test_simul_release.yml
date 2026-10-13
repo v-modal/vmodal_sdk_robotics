@@ -24,7 +24,17 @@ env:
   WORKDIR: lerobot
 
 jobs:
+  secret_detection:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - name: Reject verified secrets
+        run: docker run --rm -v "$PWD:/repo:ro" trufflesecurity/trufflehog:3.90.5 filesystem /repo --exclude-paths=/repo/.trufflehog-exclude --only-verified --fail
+
   ros2_compatibility:
+    needs: secret_detection
     name: ROS 2 ${{ matrix.ros }} / Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -51,16 +61,30 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends \
             git rsync python3-pip python3-dev \
-            "ros-${ROS_DISTRO}-demo-nodes-py"
+            "ros-${ROS_DISTRO}-demo-nodes-py" "ros-${ROS_DISTRO}-ros2bag" \
+            "ros-${ROS_DISTRO}-rosbag2-storage-default-plugins"
           # rclpy must use Ubuntu's Python ABI; do not use setup-python here.
-          ln -sf /usr/bin/python3 /usr/local/bin/python
-          python --version | grep -F "Python ${{ matrix.python }}."
+          python3 --version | grep -F "Python ${{ matrix.python }}."
 
       - name: Checkout exact candidate commit
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+
+      - name: README install verbatim before build-tool bootstrap
+        working-directory: ${{ env.WORKDIR }}
+        env:
+          PIP_BREAK_SYSTEM_PACKAGES: "1"
+        run: |
+          python3 -m pip --version
+          if [[ "$ROS_DISTRO" == humble ]]; then
+            python3 -m pip --version | grep -F 'pip 22.0.2'
+          fi
+          python3 -m pip install .
+          python3 -m pip show vmodal-robotics
+          cd /tmp
+          env -u PYTHONPATH vmodal-robot --help
 
       - name: Run SDK suite alongside ROS 2 nodes
         working-directory: ${{ env.WORKDIR }}
@@ -86,3 +110,22 @@ jobs:
           path: ${{ env.WORKDIR }}/dist/*
           if-no-files-found: error
           retention-days: 14
+
+  minio_example:
+    needs: secret_detection
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - name: Start disposable MinIO
+        run: |
+          docker build -f lerobot/tests/minio.Dockerfile -t vmodal-minio-test lerobot/tests
+          docker run -d --name minio -p 9000:9000 vmodal-minio-test
+      - name: Install and test worked transport
+        working-directory: lerobot
+        run: |
+          python3 -m pip install '.[s3,rosbag]'
+          export PYTHONPATH="$PWD:$PWD/src"
+          python3 tests/test_s3.py test_all
+          python3 tests/test_s3.py test_live --endpoint=http://127.0.0.1:9000

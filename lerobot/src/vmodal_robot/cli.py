@@ -8,7 +8,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import asyncio
 import json
@@ -32,7 +32,7 @@ def _int_value(value: int, env_name: str, default: int) -> int:
 
 
 def _video_limit(value: Optional[int]) -> int:
-    value = os.environ.get("VMODAL_ROBOT_MAX_VIDEO_BYTES", 100 * 1024 * 1024) if value is None else value
+    value = os.environ.get("VMODAL_ROBOT_MAX_VIDEO_BYTES", 1024 * 1024 * 1024) if value is None else value
     if type(value) not in (int, str) or not str(value).isdigit() or int(value) <= 0:
         raise ValueError("max_video_bytes must be a positive integer number of bytes")
     return int(value)
@@ -46,7 +46,7 @@ def _retention_value(value: Optional[float]) -> float:
 
 
 def _spool(spool_dir: str, max_bytes: int, aux_reserve_bytes: int, max_records: int,
-           max_video_bytes: Optional[int] = None) -> Spool:
+           max_video_bytes: Optional[int] = None, readonly: bool = False) -> Spool:
     root = os_path_value(spool_dir, "VMODAL_ROBOT_SPOOL_DIR", "./vmodal_robot_spool")
     return Spool(
         SpoolConfig(
@@ -57,7 +57,7 @@ def _spool(spool_dir: str, max_bytes: int, aux_reserve_bytes: int, max_records: 
             ),
             max_records=_int_value(max_records, "VMODAL_ROBOT_MAX_RECORDS", 10000),
             max_video_bytes=_video_limit(max_video_bytes),
-        )
+        ), readonly=readonly
     )
 
 
@@ -150,18 +150,23 @@ class RobotCli:
     ) -> str:
         """Print durable backlog and delivery status as JSON."""
         limit = _video_limit(max_video_bytes)
-        retention = _retention_value(retention_seconds)
+        retention = (_retention_value(retention_seconds) if retention_seconds is not None
+                     or "VMODAL_ROBOT_RETENTION_SECONDS" in os.environ else None)
         transport = VmodalTransport(None)
         try:
             qualification = transport.validate_capabilities(limit)
         except TransportBlocked as exc:
             qualification = {"qualified": False, "reason": str(exc),
                              "max_video_bytes": transport.capabilities.max_video_bytes}
-        spool = _spool(spool_dir, max_bytes, aux_reserve_bytes, max_records, limit)
+        root = os_path_value(spool_dir, "VMODAL_ROBOT_SPOOL_DIR", "./vmodal_robot_spool")
+        spool = _spool(spool_dir, max_bytes, aux_reserve_bytes, max_records, limit,
+                       readonly=os.path.isfile(os.path.join(root, "state.sqlite3")))
         try:
+            spool.db.execute("BEGIN")
             values = spool.status(retention)
             values.update(max_bytes=spool.cfg.max_bytes, aux_reserve_bytes=spool.cfg.aux_reserve_bytes,
-                          max_records=spool.cfg.max_records, retention_seconds=retention,
+                          max_records=spool.cfg.max_records,
+                          retention_seconds=retention if retention is not None else values["configuration"].get("retention_seconds", 0),
                           transport_qualification=qualification)
             return json.dumps(values, sort_keys=True)
         finally:
@@ -187,7 +192,7 @@ class RobotCli:
 
 
 def main():
-    fire.Fire(RobotCli())
+    fire.Fire(RobotCli(), name="vmodal-robot")
 
 
 if __name__ == "__main__":

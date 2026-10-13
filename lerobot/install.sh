@@ -12,8 +12,8 @@ robot_install() {
   ## Usage:
     bash install.sh install
   '
-  python -m pip install 'setuptools>=77,<85' 'wheel>=0.45,<1' 'packaging>=24.2,<27'
-  python -m pip install --no-build-isolation -e .
+  python3 -m pip install 'setuptools>=68,<77' 'wheel>=0.45,<1' 'packaging>=24.2,<27'
+  python3 -m pip install --no-build-isolation -e .
 }
 
 robot_install_cloud() {
@@ -21,8 +21,8 @@ robot_install_cloud() {
   ## Usage:
     bash install.sh cloud
   '
-  python -m pip install 'setuptools>=77,<85' 'wheel>=0.45,<1' 'packaging>=24.2,<27'
-  python -m pip install --no-build-isolation -e '.[vmodal]'
+  python3 -m pip install 'setuptools>=68,<77' 'wheel>=0.45,<1' 'packaging>=24.2,<27'
+  python3 -m pip install --no-build-isolation -e '.[vmodal]'
 }
 
 cmd="${1:-install}"

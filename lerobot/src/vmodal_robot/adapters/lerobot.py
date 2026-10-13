@@ -2,11 +2,12 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import glob
 import mimetypes
 import re
+import time
 
 from ..contracts import ARTIFACT_KINDS, ArtifactInput, ContractError, RevisionInput
 from ..utils import os_json_load, os_path_has_symlink, os_safe_relative
@@ -18,12 +19,17 @@ _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 class LeRobotAdapter:
     """Discover explicit LeRobot v3 completion manifests without importing LeRobot."""
 
+    source_format = "lerobot"
+    source_version = "v3"
+
     def __init__(self, ready_dir: str):
         self.ready_dir = os.path.abspath(os.path.expanduser(ready_dir))
         self._errors: List[Tuple[str, str]] = []
         self._seen: Dict[str, Tuple[int, int]] = {}
         self._pending: Dict[str, Tuple[int, int]] = {}
         self._reported: Dict[str, Tuple[Any, str]] = {}
+        self._outcomes: Dict[str, Tuple[Any, str]] = {}
+        self._started_at = time.time()
         self._cursor = ""
 
     def discover(self, limit: int = 100) -> List[RevisionInput]:
@@ -48,6 +54,7 @@ class LeRobotAdapter:
                     self._reported[path] = (stamp, reason)
                 if stamp is not None and not isinstance(exc, OSError):
                     self._seen[path] = stamp
+                self._outcomes[path] = (stamp, "rejected")
                 continue
             self._reported.pop(path, None)
             self._pending[path] = stamp
@@ -64,6 +71,32 @@ class LeRobotAdapter:
         stamp = self._pending.pop(item.manifest_path, None)
         if stamp is not None and outcome != "deferred":
             self._seen[item.manifest_path] = stamp
+        if stamp is not None:
+            self._outcomes[item.manifest_path] = (stamp, "admitted" if outcome == "accepted" else outcome)
+
+    def discovery_status(self) -> Dict[str, Any]:
+        """Count current manifest stamps in this adapter instance, including unpolled work.
+
+        Outcomes reset on adapter restart; the spool retains the last timestamped
+        snapshot for observers. A changed stamp becomes unseen until rediscovered.
+        Directory/stat races are best-effort; no artifact payloads are read here.
+        """
+        counts = {name: 0 for name in ("unseen", "pending", "deferred", "rejected", "admitted")}
+        for path in glob.glob(os.path.join(self.ready_dir, "*.ready.json")):
+            try:
+                stat = os.stat(path)
+            except OSError:
+                continue
+            stamp = (stat.st_size, stat.st_mtime_ns)
+            if self._pending.get(path) == stamp:
+                state = "pending"
+            else:
+                previous = self._outcomes.get(path)
+                state = previous[1] if previous and previous[0] == stamp else "unseen"
+            counts[state] += 1
+        return {"ready_dir": self.ready_dir, "started_at": self._started_at,
+                "observed_at": time.time(), "scope": "adapter_instance_current_manifests",
+                "manifests_present": sum(counts.values()), **counts}
 
     def drain_errors(self) -> List[Tuple[str, str]]:
         values = self._errors
@@ -74,10 +107,11 @@ class LeRobotAdapter:
         data = os_json_load(manifest_path)
         if data.get("contract_version") != 1:
             raise ContractError("ready manifest contract_version must be 1")
-        if data.get("source_format") != "lerobot":
-            raise ContractError("source_format must be lerobot")
-        if data.get("source_version") != "v3":
-            raise ContractError("only LeRobot dataset v3 is supported")
+        if data.get("source_format") != self.source_format:
+            raise ContractError(f"source_format must be {self.source_format}")
+        if data.get("source_version") != self.source_version:
+            label = "LeRobot" if self.source_format == "lerobot" else self.source_format
+            raise ContractError(f"only {label} dataset {self.source_version} is supported")
         root_value = str(data.get("dataset_root", "."))
         if os.path.isabs(root_value):
             dataset_root = os.path.abspath(root_value)
@@ -152,8 +186,8 @@ class LeRobotAdapter:
         return RevisionInput(
             source_id=source_id,
             dataset_key=dataset_key,
-            source_format="lerobot",
-            source_version="v3",
+            source_format=self.source_format,
+            source_version=self.source_version,
             destination=destination,
             source_revision=source_revision,
             complete=bool(data.get("complete", False)),

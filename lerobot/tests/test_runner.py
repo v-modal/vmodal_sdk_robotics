@@ -132,6 +132,8 @@ def _daemon_fault(phase):
                 if phase == "copy":
                     assert copy_finished.is_set()
                     assert not spool._preparing
+                    assert spool.status()["discovery"]["pending"] == 0, (spool.status()["discovery"], runner.adapter.discovery_status())
+                    assert spool.status()["discovery"]["deferred"] == 1
             finally:
                 runner.stop(0)
                 await asyncio.gather(task, return_exceptions=True)
@@ -141,8 +143,39 @@ def _daemon_fault(phase):
 
 
 def test2():
+    _discovery_stop_check()
     for phase in ("video", "publish", "copy", "retry"):
         _daemon_fault(phase)
+
+
+def _discovery_stop_check():
+    data = pd_fake_data("runner_discovery_stop")
+    spool = Spool(SpoolConfig(os.path.join(data["root"], "spool"), max_bytes=100000, aux_reserve_bytes=1000))
+    adapter = LeRobotAdapter(data["ready"])
+    runner = Runner(adapter, spool, FakeTransport())
+    discover = adapter.discover
+
+    async def check():
+        started = asyncio.Event()
+        loop = asyncio.get_running_loop()
+
+        def delayed(limit):
+            loop.call_soon_threadsafe(started.set)
+            runner._copy_stop.wait()
+            return discover(limit)
+
+        with patch.object(adapter, "discover", delayed):
+            task = asyncio.create_task(runner.run())
+            await asyncio.wait_for(started.wait(), 1)
+            runner.stop(0)
+            assert await asyncio.wait_for(task, 1) is False
+        status = spool.status()["discovery"]
+        assert status["pending"] == 0
+        assert status["deferred"] == 1
+        assert spool.status()["record_count"] == 0
+
+    asyncio.run(check())
+    spool.close()
 
 
 def test3():
@@ -192,6 +225,9 @@ def test5():
     status = spool.status()
     assert status["deferred_handoffs"] == 1
     assert status["spool_bytes"] == 0
+    assert status["discovery"]["deferred"] == 1
+    assert status["admission_pressure"]["pause_recording"]
+    assert "unresolved_capacity" in status["admission_pressure"]["reasons"]
     assert os.path.isfile(os.path.join(data["dataset"], "videos/chunk-000/cam-front.mp4"))
     spool.close()
 
@@ -204,12 +240,16 @@ def test5():
         json.dump(second, handle)
     runner = Runner(LeRobotAdapter(data["ready"]), spool, FakeTransport(), RunnerConfig(discovery_batch=1))
     assert len(runner.admit()) == 1
+    assert spool.status()["discovery"]["unseen"] == 1
+    assert spool.status()["discovery"]["admitted"] == 1
     assert runner.admit() == []
     assert spool.status()["deferred_handoffs"] == 1
+    assert spool.status()["discovery"]["deferred"] == 1
     asyncio.run(_drain(runner))
     assert spool.status()["spool_bytes"] == 0
     assert len(runner.admit()) == 1
     assert spool.status()["deferred_handoffs"] == 0
+    assert spool.status()["discovery"]["admitted"] == 2
     asyncio.run(_drain(runner))
     assert len(runner.transport.revisions) == 2
     spool.close()
@@ -255,6 +295,8 @@ def test7():
     assert runner.admit() == []
     assert spool.status()["rejected_handoffs"] == 1
     assert spool.status()["record_count"] == 0
+    assert spool.status()["admission_pressure"]["recommended_action"] == "segment_video"
+    assert spool.status()["discovery"]["deferred"] == 1
     spool.close()
 
     for malformed in ("dict", "empty_ref"):

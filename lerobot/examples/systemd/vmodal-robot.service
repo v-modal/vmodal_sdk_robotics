@@ -1,0 +1,22 @@
+[Unit]
+Description=VModal robot S3 uploader
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/var/lib/vmodal-robot /srv/robot-data
+Before=robot-recorder.service
+
+[Service]
+Type=simple
+User=vmodal-robot
+Group=vmodal-robot
+WorkingDirectory=/opt/vmodal_sdk_robotics/lerobot
+EnvironmentFile=/etc/vmodal-robot/vmodal-robot.env
+# Edit bucket/endpoint and source_format for your installation. Bucket must exist.
+ExecStart=/usr/bin/python3 /opt/vmodal_sdk_robotics/lerobot/examples/s3_upload.py run --bucket=robot-events --ready_dir=/srv/robot-data/ready --spool_dir=/var/lib/vmodal-robot --prefix=vmodal --source_format=lerobot --deadline_seconds=30
+Restart=on-failure
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=45
+
+[Install]
+WantedBy=multi-user.target

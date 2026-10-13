@@ -26,7 +26,10 @@ dirtest="ztmp/ztests"
 def test1():
     os_path_cleanup("dist")
     os_path_cleanup("build")
-    subprocess.run([sys.executable, "-m", "build", "--no-isolation"], check=True)
+    proc = subprocess.run([sys.executable, "-m", "build", "--no-isolation"], text=True,
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    assert proc.returncode == 0, proc.stdout
+    assert "warning: no files found matching" not in proc.stdout, proc.stdout
     wheels = glob.glob("dist/*.whl")
     sdists = glob.glob("dist/*.tar.gz")
     assert len(wheels) == 1
@@ -39,7 +42,10 @@ def test1():
     assert "vmodal_robot/reconciliation/temporal.py" in names
     assert "vmodal_robot/reconciliation/dataset.py" in names
     assert "vmodal_robot/markers.py" in names
+    assert "vmodal_robot/monitoring.py" in names
     assert not any(name.startswith("tests/") for name in names)
+    assert not any(name.startswith("src/") for name in names)
+    assert "vmodal_robot/_support/util_log.py" in names
     metadata_name = [name for name in names if name.endswith(".dist-info/METADATA")][0]
     with zipfile.ZipFile(wheels[0]) as handle:
         metadata = handle.read(metadata_name).decode("utf-8").lower()
@@ -52,7 +58,7 @@ def test2():
     target = os.path.abspath(os.path.join(dirtest, __version__, "wheel_install"))
     os_path_cleanup(target)
     subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "--no-deps", "--target", target, wheel], check=True)
-    code = ("import vmodal_robot; import vmodal_robot.markers; "
+    code = ("import vmodal_robot; import vmodal_robot.markers; import vmodal_robot.monitoring; "
             "import vmodal_robot.reconciliation.temporal; import vmodal_robot.reconciliation.dataset; "
             "print(vmodal_robot.__version__)")
     output = subprocess.check_output([sys.executable, "-c", code], cwd=target,
@@ -61,10 +67,11 @@ def test2():
 
 
 def test3():
-    text = open("pyproject.toml", "r", encoding="utf-8").read()
-    assert 'dependencies = ["fire>=0.6.0,<1"]' in text
-    assert 'vmodal = ["vmodal>=1.0.0,<2"]' in text
-    assert text.count('"packaging>=24.2,<27"') == 2
+    text = open("setup.cfg", "r", encoding="utf-8").read()
+    assert 'install_requires = fire>=0.6.0,<1' in text
+    assert 'vmodal = vmodal>=1.0.0,<2' in text
+    assert 'name = vmodal-robotics' in text
+    assert 'include = vmodal_robot, vmodal_robot.*' in text
     for name in ("torch", "pandas", "pyarrow", "rclpy", "opencv", "gstreamer"):
         assert name not in text.lower()
 
@@ -83,6 +90,9 @@ def test4():
     for path in ("docs/transport_contract.md", "docs/search_qualification.md", "docs/search_profile.json",
                  "examples/search_acceptance.py", "examples/measure_cloud_latency.py",
                  "examples/researcher_workflow.py", "docs/researcher_workflow.md"):
+        assert any(name.endswith("/" + path) for name in names), path
+    for path in ("examples/systemd/vmodal-robot.service", "examples/systemd/vmodal-robot-metrics.service",
+                 "examples/systemd/vmodal-robot.env", "docs/fleet_operations.md"):
         assert any(name.endswith("/" + path) for name in names), path
 
 
@@ -141,7 +151,7 @@ def test6():
             local = os.path.normpath(os.path.join(os.path.dirname(path), link.split("#")[0]))
             assert os.path.isfile(local), (name, link)
     readme = open(os.path.join(target, "README.md"), "r", encoding="utf-8").read()
-    assert "cd vmodal_sdk_robotics/lerobot\npython -m pip install ." in readme
+    assert "cd vmodal_sdk_robotics/lerobot\npython3 -m pip install ." in readme
     assert "bash test.sh test" in readme
     assert "cd vmodal_sdk_robotics\nbash test.sh test" not in readme
     assert "fail capability validation before creating a spool" in readme
@@ -158,11 +168,15 @@ def test6():
         text=True,
     )
     assert output.strip() == __version__
-    subprocess.run([sys.executable, "-c", "from vmodal_robot.cli import RobotCli; import fire; fire.Fire(RobotCli())",
-                    "--help"], cwd=install, env=env, check=True, stdout=subprocess.DEVNULL)
-    for name in ("search_acceptance.py", "measure_cloud_latency.py", "researcher_workflow.py"):
-        subprocess.run([sys.executable, os.path.join(target, "examples", name), "--help"],
-                       cwd=install, env=env, check=True, stdout=subprocess.DEVNULL)
+    output = subprocess.check_output([sys.executable, "-m", "vmodal_robot.cli", "--help"],
+                                     cwd=install, env=env, text=True, stderr=subprocess.STDOUT)
+    assert "vmodal-robot" in output
+    assert "NAME\n    -c" not in output
+    for name in ("search_acceptance.py", "measure_cloud_latency.py", "researcher_workflow.py", "s3_upload.py"):
+        output = subprocess.check_output([sys.executable, os.path.join(target, "examples", name), "--help"],
+                                         cwd=install, env=env, text=True, stderr=subprocess.STDOUT)
+        for command in ("\n     List", "\n     Dict", "\n     os", "\n     sys", "\n     math"):
+            assert command not in output, (name, output)
 
 
 def test7():

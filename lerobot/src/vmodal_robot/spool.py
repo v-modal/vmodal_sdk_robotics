@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import json
 import errno
@@ -11,6 +11,7 @@ import shutil
 import sqlite3
 import time
 import uuid
+from urllib.parse import quote
 
 from .contracts import (
     CONTRACT_VERSION,
@@ -30,55 +31,92 @@ class SpoolConfig:
     max_bytes: int = 10 * 1024 * 1024 * 1024
     aux_reserve_bytes: int = 512 * 1024 * 1024
     max_records: int = 10000
-    max_video_bytes: int = 100 * 1024 * 1024
+    max_video_bytes: int = 1024 * 1024 * 1024
 
 
 class Spool:
-    """Exclusive durable owner of one root; same-ID artifact/revision contracts are immutable.
+    """Exclusive durable writer; readonly observers skip recovery and filesystem mutation."""
 
-    Competing opens fail before recovery can remove another admission's copies.
-    Closing the spool or exiting its process releases ownership.
-    """
-
-    def __init__(self, cfg: SpoolConfig):
+    @staticmethod
+    def _validate_config(cfg: SpoolConfig):
         if cfg.max_bytes <= 0 or cfg.max_records <= 0:
             raise ValueError("max_bytes and max_records must be positive")
         if cfg.aux_reserve_bytes < 0 or cfg.aux_reserve_bytes >= cfg.max_bytes:
             raise ValueError("aux_reserve_bytes must be non-negative and smaller than max_bytes")
         if type(cfg.max_video_bytes) is not int or cfg.max_video_bytes <= 0:
             raise ValueError("max_video_bytes must be a positive integer")
+
+    def __init__(self, cfg: SpoolConfig, readonly: bool = False):
+        if not readonly:
+            self._validate_config(cfg)
         self.cfg = cfg
         self.root = os.path.abspath(os.path.expanduser(cfg.root))
         self.obj_dir = os.path.join(self.root, "objects")
-        os.makedirs(self.obj_dir, exist_ok=True)
-        os_fsync_dir(self.root)
-        os_fsync_dir(os.path.dirname(self.root))
         self.db_path = os.path.join(self.root, "state.sqlite3")
+        self._readonly = readonly
         self.db = None
-        self._lock = open(os.path.join(self.root, "state.lock"), "a+b")
+        self._lock = None
+        self.last_cleanup = None
+        self._preparing = False
         try:
-            try:
-                fcntl.flock(self._lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError:
-                raise RuntimeError(f"spool already in use: {self.root}") from None
-            self.db = sqlite3.connect(self.db_path)
+            if readonly:
+                self.db = sqlite3.connect("file:" + quote(self.db_path, safe="/") + "?mode=ro", uri=True)
+                self.db.execute("PRAGMA query_only=ON")
+            else:
+                os.makedirs(self.obj_dir, exist_ok=True)
+                os_fsync_dir(self.root)
+                os_fsync_dir(os.path.dirname(self.root))
+                self._lock = open(os.path.join(self.root, "state.lock"), "a+b")
+                try:
+                    fcntl.flock(self._lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                except BlockingIOError:
+                    raise RuntimeError(f"spool already in use: {self.root}") from None
+                self.db = sqlite3.connect(self.db_path)
+                self.db.execute("PRAGMA journal_mode=WAL")
+                self.db.execute("PRAGMA synchronous=FULL")
             self.db.row_factory = sqlite3.Row
-            self.db.execute("PRAGMA journal_mode=WAL")
-            self.db.execute("PRAGMA synchronous=FULL")
-            self.last_cleanup = None
-            self._preparing = False
             columns = {row["name"] for row in self.db.execute("PRAGMA table_info(rejections)")}
             receipts = {row["name"] for row in self.db.execute("PRAGMA table_info(receipts)")}
             needs_backup = (bool(columns) and "category" not in columns) or (bool(receipts) and "checksum_verified" not in receipts)
-            self._migration_deferred = needs_backup and not self._backup()
+            self._migration_deferred = needs_backup and (readonly or not self._backup())
             self._legacy_schema = bool(columns) and "category" not in columns and self._migration_deferred
-            self._schema()
-            self.os_recover()
+            self._receipt_evidence = "checksum_verified" in receipts
+            if not readonly:
+                self._schema()
+            self._meta_available = self.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='spool_meta'").fetchone() is not None
+            self._monitoring_config = self._load_meta("configuration") or {}
+            self.last_cleanup = self._load_meta("last_cleanup")
+            if readonly and self._monitoring_config:
+                self.cfg = SpoolConfig(cfg.root, **{key: self._monitoring_config[key] for key in
+                    ("max_bytes", "aux_reserve_bytes", "max_records", "max_video_bytes") if key in self._monitoring_config})
+            if readonly:
+                self._validate_config(self.cfg)
+            if not readonly:
+                self._monitoring_config.update({key: getattr(self.cfg, key) for key in
+                    ("max_bytes", "aux_reserve_bytes", "max_records", "max_video_bytes")})
+                self._save_meta("configuration", self._monitoring_config)
+                self.os_recover()
         except BaseException:
             if self.db is not None:
                 self.db.close()
-            self._lock.close()
+            if self._lock is not None:
+                self._lock.close()
             raise
+
+    def _load_meta(self, key: str):
+        row = self.db.execute("SELECT value FROM spool_meta WHERE key=?", (key,)).fetchone() if self._meta_available else None
+        return json.loads(row["value"]) if row else None
+
+    def _save_meta(self, key: str, value: Any):
+        if self._readonly:
+            raise RuntimeError("readonly spool cannot mutate state")
+        if self._meta_available:
+            self.db.execute("INSERT OR REPLACE INTO spool_meta VALUES (?, ?)", (key, json.dumps(value)))
+            self.db.commit()
+
+    def record_retention(self, seconds: float):
+        self._monitoring_config["retention_seconds"] = seconds
+        self._save_meta("configuration", self._monitoring_config)
 
     def _schema(self):
         self.db.executescript(
@@ -202,7 +240,8 @@ class Spool:
         try:
             self.db.close()
         finally:
-            self._lock.close()
+            if self._lock is not None:
+                self._lock.close()
 
     def __enter__(self):
         return self
@@ -283,6 +322,8 @@ class Spool:
         self.reject(item.manifest_path, str(exc), category)
 
     def prepare_accept(self, item: RevisionInput) -> Dict[str, Any]:
+        if self._readonly:
+            raise RuntimeError("readonly spool cannot admit data")
         if self._preparing:
             raise RuntimeError("only one spool admission may be prepared at a time")
         if not item.artifacts:
@@ -696,7 +737,47 @@ class Spool:
         ).fetchone()
         return int(row["count"])
 
-    def status(self, retention_seconds: float = 0.0) -> Dict[str, Any]:
+    def record_discovery(self, snapshot: Dict[str, Any]):
+        """Persist the last adapter observation; its timestamp exposes staleness."""
+        self._save_meta("discovery", snapshot)
+
+    def _admission_pressure(self, total: int, video: int, records: int,
+                            disk_free: int, rejections: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Report known headroom and unresolved durable deferrals, never forecast size."""
+        byte_headroom = max(0, self.cfg.max_bytes - total)
+        video_headroom = max(0, self.cfg.max_bytes - self.cfg.aux_reserve_bytes - video)
+        record_headroom = max(0, self.cfg.max_records - records)
+        reasons = []
+        pause = byte_headroom == 0 or record_headroom == 0 or disk_free <= 0
+        pause_video = video_headroom == 0 or disk_free <= self.cfg.aux_reserve_bytes
+        for value, name in ((byte_headroom, "byte_quota_full"), (record_headroom, "record_quota_full"),
+                            (video_headroom, "video_lane_full"), (disk_free, "disk_full")):
+            if value <= 0:
+                reasons.append(name)
+        if 0 < disk_free <= self.cfg.aux_reserve_bytes:
+            reasons.append("disk_within_aux_reserve")
+        deferred = [row for row in rejections if row["category"] in ("capacity", "video_limit", "io")]
+        segment = False
+        for row in deferred:
+            if row["category"] == "video_limit":
+                segment = True
+            elif row["category"] == "capacity" and row["reason"].startswith("video lane quota exceeded"):
+                pause_video = True
+            else:
+                pause = True
+            reasons.append("unresolved_" + row["category"])
+        action = "pause_recording" if pause else "pause_video_recording" if pause_video else "segment_video" if segment else "continue"
+        return {"pause_recording": pause, "pause_video_recording": pause or pause_video,
+                "recommended_action": action, "reasons": sorted(set(reasons)),
+                "byte_headroom": byte_headroom, "video_headroom": min(video_headroom, max(0, disk_free - self.cfg.aux_reserve_bytes)),
+                "record_headroom": record_headroom, "aux_reserve_bytes": self.cfg.aux_reserve_bytes,
+                "latest_deferral": deferred[0] if deferred else None,
+                "deferral_scope": "unresolved_until_successful_readmission",
+                "next_manifest_fits": None}
+
+    def status(self, retention_seconds: Optional[float] = None) -> Dict[str, Any]:
+        if retention_seconds is None:
+            retention_seconds = self._monitoring_config.get("retention_seconds", 0.0)
         total, video, records = self._usage()
         values = os.statvfs(self.root)
         disk_free = int(values.f_bavail * values.f_frsize)
@@ -742,6 +823,7 @@ class Spool:
             "record_count": records,
             "historical_record_count": historical,
             "max_video_bytes": self.cfg.max_video_bytes,
+            "configuration": dict(self._monitoring_config),
             "artifact_counts": artifact_counts,
             "revision_counts": revision_counts,
             "deferred_handoffs": sum(row["category"] in ("capacity", "video_limit", "io") for row in reasons),
@@ -749,10 +831,12 @@ class Spool:
             "video_naming_deferred": legacy,
             "schema_migration_deferred": self._migration_deferred,
             "cleanup_eligible_count": len(self._cleanup_rows(retention_seconds)),
-            "last_cleanup": self.last_cleanup,
+            "last_cleanup": self._load_meta("last_cleanup") if self._meta_available else self.last_cleanup,
             "disk_free_bytes": disk_free,
             "disk_headroom_bytes": min(disk_free, max(0, self.cfg.max_bytes - total)),
             "video_bytes": video,
+            "discovery": self._load_meta("discovery"),
+            "admission_pressure": self._admission_pressure(total, video, records, disk_free, reasons),
             "lanes": lanes,
             "blocked_count": self.blocked_count(),
             "retry_count": int(retries["count"]),
@@ -776,6 +860,8 @@ class Spool:
         ).fetchall()
 
     def cleanup(self, retention_seconds: float) -> int:
+        if self._readonly:
+            raise RuntimeError("readonly spool cannot clean data")
         rows = self._cleanup_rows(retention_seconds)
         count = 0
         for row in rows:
@@ -856,6 +942,8 @@ class Spool:
                 log_warning(f"video naming migration deferred: {row['artifact_id']}: {exc}")
 
     def os_recover(self):
+        if self._readonly:
+            raise RuntimeError("readonly spool cannot recover data")
         if self._preparing:
             raise RuntimeError("finish spool admission before filesystem recovery")
         self._migrate_videos()

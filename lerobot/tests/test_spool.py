@@ -318,6 +318,7 @@ def _legacy_ack_check():
 
 
 def test9():
+    _pressure_snapshot_check()
     _immutable_contract_check()
     _ownership_check()
     data = pd_fake_data("spool_four_names")
@@ -371,6 +372,55 @@ def _hold_spool(root):
     spool = Spool(SpoolConfig(root, max_bytes=100000, aux_reserve_bytes=1000))
     print("LOCKED", flush=True)
     signal.pause()
+
+
+def _pressure_snapshot_check():
+    data = pd_fake_data("spool_pressure_snapshot")
+    cfg = SpoolConfig(os.path.join(data["root"], "spool"), max_bytes=100000,
+                      aux_reserve_bytes=1000, max_records=6, max_video_bytes=5000)
+    spool = Spool(cfg)
+    adapter = LeRobotAdapter(data["ready"])
+    runner = Runner(adapter, spool, FakeTransport(), RunnerConfig(retention_seconds=3600))
+    assert len(runner.admit()) == 1
+    status = spool.status()
+    assert status["discovery"]["admitted"] == 1
+    assert status["admission_pressure"]["recommended_action"] == "continue"
+    assert status["admission_pressure"]["record_headroom"] == 1
+    assert status["admission_pressure"]["next_manifest_fits"] is None
+    source_paths = [value.source_path for value in adapter.os_load_manifest(data["manifest"]).artifacts]
+    class Disk:
+        f_bavail = 500
+        f_frsize = 1
+    with patch("vmodal_robot.spool.os.statvfs", return_value=Disk()):
+        pressure = spool.status()["admission_pressure"]
+        assert pressure["recommended_action"] == "pause_video_recording"
+        assert pressure["video_headroom"] == 0
+        assert not pressure["pause_recording"]
+    spool.reject(data["manifest"], "spool byte quota exceeded: 100000", "capacity")
+    assert spool.status()["admission_pressure"]["pause_recording"]
+    with Spool(SpoolConfig(cfg.root, max_bytes=100000), readonly=True) as observer:
+        observer.db.execute("BEGIN")
+        observed = observer.status()
+        assert observed["configuration"]["max_bytes"] == cfg.max_bytes
+        assert observed["configuration"]["retention_seconds"] == 3600
+        assert observed["max_video_bytes"] == 5000
+        assert observed["discovery"] == status["discovery"]
+        assert observed["admission_pressure"]["latest_deferral"]["category"] == "capacity"
+        assert observer.cfg.max_records == 6
+        with ContractRaises(RuntimeError, "readonly spool cannot admit data"):
+            observer.prepare_accept(adapter.os_load_manifest(data["manifest"]))
+        with ContractRaises(RuntimeError, "readonly spool cannot clean data"):
+            observer.cleanup(0)
+    assert all(os.path.isfile(path) for path in source_paths)
+    spool.close()
+    with Spool(cfg) as reopened:
+        assert reopened.status()["discovery"] == status["discovery"]
+        assert reopened.status()["admission_pressure"]["pause_recording"]
+        runner = Runner(LeRobotAdapter(data["ready"]), reopened, FakeTransport())
+        assert len(runner.admit()) == 1
+        assert not reopened.status()["admission_pressure"]["pause_recording"]
+        assert reopened.status()["discovery"]["admitted"] == 1
+        assert reopened.status()["discovery"]["started_at"] != status["discovery"]["started_at"]
 
 
 def _ownership_check():
