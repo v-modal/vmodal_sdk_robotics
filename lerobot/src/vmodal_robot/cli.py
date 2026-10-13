@@ -8,7 +8,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import asyncio
 import json
@@ -32,7 +32,7 @@ def _int_value(value: int, env_name: str, default: int) -> int:
 
 
 def _video_limit(value: Optional[int]) -> int:
-    value = os.environ.get("VMODAL_ROBOT_MAX_VIDEO_BYTES", 100 * 1024 * 1024) if value is None else value
+    value = os.environ.get("VMODAL_ROBOT_MAX_VIDEO_BYTES", 1024 * 1024 * 1024) if value is None else value
     if type(value) not in (int, str) or not str(value).isdigit() or int(value) <= 0:
         raise ValueError("max_video_bytes must be a positive integer number of bytes")
     return int(value)
@@ -187,7 +187,7 @@ class RobotCli:
 
 
 def main():
-    fire.Fire(RobotCli())
+    fire.Fire(RobotCli(), name="vmodal-robot")
 
 
 if __name__ == "__main__":

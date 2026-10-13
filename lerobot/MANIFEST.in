@@ -1,8 +1,10 @@
-include LICENSE README.md pyproject.toml test.sh ros2_test.sh install.sh cli.sh docs.py utils.py public_release_filter.txt
+include LICENSE README.md pyproject.toml setup.cfg test.sh ros2_test.sh install.sh cli.sh docs.py utils.py public_release_filter.txt
 recursive-include docs *.md *.json
 include docs_sdk/README.md
-recursive-include examples *.py *.json
-recursive-include tests *.py *.json *.jsonl *.wav *.mp4 *.parquet
+recursive-include examples *.py *.sh
+recursive-include tests *.py *.Dockerfile
+recursive-include src/utils *.py
+include src/__init__.py
 prune ztmp
 prune ztmp_sandbox
 prune build

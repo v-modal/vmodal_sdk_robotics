@@ -73,7 +73,9 @@ ACK payloads longer. Retained byte/record quotas release after cleanup; SQLite I
 and receipts remain as deduplication history and grow over time.
 
 `max_video_bytes` is exposed by `run`, `flush`, and `status`, with
-`VMODAL_ROBOT_MAX_VIDEO_BYTES`; the default is 104,857,600 bytes (100 MiB).
+`VMODAL_ROBOT_MAX_VIDEO_BYTES`; the local default is 1,073,741,824 bytes (1 GiB).
+The worked [S3/MinIO transport](s3_transport.md) supports that default without
+using the reference SDK's separate 100 MiB upload preflight.
 200 decimal MB is 200,000,000 bytes. A producer's shard target is not a strict
 guaranteed maximum. Admission is all-or-nothing: an oversized bundled video
 defers telemetry too. For independent telemetry, emit a separate complete

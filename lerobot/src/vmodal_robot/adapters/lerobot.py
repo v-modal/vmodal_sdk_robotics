@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import glob
 import mimetypes
@@ -17,6 +17,9 @@ _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 class LeRobotAdapter:
     """Discover explicit LeRobot v3 completion manifests without importing LeRobot."""
+
+    source_format = "lerobot"
+    source_version = "v3"
 
     def __init__(self, ready_dir: str):
         self.ready_dir = os.path.abspath(os.path.expanduser(ready_dir))
@@ -74,10 +77,11 @@ class LeRobotAdapter:
         data = os_json_load(manifest_path)
         if data.get("contract_version") != 1:
             raise ContractError("ready manifest contract_version must be 1")
-        if data.get("source_format") != "lerobot":
-            raise ContractError("source_format must be lerobot")
-        if data.get("source_version") != "v3":
-            raise ContractError("only LeRobot dataset v3 is supported")
+        if data.get("source_format") != self.source_format:
+            raise ContractError(f"source_format must be {self.source_format}")
+        if data.get("source_version") != self.source_version:
+            label = "LeRobot" if self.source_format == "lerobot" else self.source_format
+            raise ContractError(f"only {label} dataset {self.source_version} is supported")
         root_value = str(data.get("dataset_root", "."))
         if os.path.isabs(root_value):
             dataset_root = os.path.abspath(root_value)
@@ -152,8 +156,8 @@ class LeRobotAdapter:
         return RevisionInput(
             source_id=source_id,
             dataset_key=dataset_key,
-            source_format="lerobot",
-            source_version="v3",
+            source_format=self.source_format,
+            source_version=self.source_version,
             destination=destination,
             source_revision=source_revision,
             complete=bool(data.get("complete", False)),

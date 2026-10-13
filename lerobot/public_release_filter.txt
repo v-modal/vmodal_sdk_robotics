@@ -7,6 +7,7 @@
 + /MANIFEST.in
 + /README.md
 + /pyproject.toml
++ /setup.cfg
 + /test.sh
 + /ros2_test.sh
 + /install.sh

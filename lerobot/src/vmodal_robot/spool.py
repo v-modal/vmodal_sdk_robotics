@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import json
 import errno
@@ -28,7 +28,7 @@ class SpoolConfig:
     max_bytes: int = 10 * 1024 * 1024 * 1024
     aux_reserve_bytes: int = 512 * 1024 * 1024
     max_records: int = 10000
-    max_video_bytes: int = 100 * 1024 * 1024
+    max_video_bytes: int = 1024 * 1024 * 1024
 
 
 class Spool:

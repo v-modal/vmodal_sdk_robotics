@@ -10,7 +10,7 @@
 [![LeRobot v3](https://img.shields.io/badge/LeRobot-v3-FFD21E?logo=huggingface&logoColor=black)](https://github.com/huggingface/lerobot)
 [![Linux](https://img.shields.io/badge/target-Linux_robot-FCC624?logo=linux&logoColor=black)](https://github.com/v-modal/vmodal_sdk_robotics)
 [![MIT](https://img.shields.io/badge/license-MIT-2EA44F)](LICENSE)
-[![runtime deps](https://img.shields.io/badge/runtime_deps-Fire_only-8A2BE2)](pyproject.toml)
+[![runtime deps](https://img.shields.io/badge/runtime_deps-Fire_only-8A2BE2)](setup.cfg)
 [![API reference](https://img.shields.io/badge/docs-API_reference-0A66C2)](https://v-modal.github.io/vmodal_sdk_robotics/)
 
 *The network will flap. Power will disappear. Recording must continue.*
@@ -78,21 +78,23 @@ Python 3.10 through 3.13 is supported. The public repository contains the packag
 under `lerobot/`. Install its optional reference Python SDK dependency with:
 
 ```bash
-python -m pip install \
-  "vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.0#subdirectory=lerobot"
+python3 -m pip install \
+  "vmodal-robotics[vmodal] @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.1#subdirectory=lerobot"
 ```
 
 For a custom transport, install the lean core:
 
 ```bash
-python -m pip install \
-  "vmodal-robotics @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.0#subdirectory=lerobot"
+python3 -m pip install \
+  "vmodal-robotics @ git+https://github.com/v-modal/vmodal_sdk_robotics.git@v0.2.1#subdirectory=lerobot"
 ```
 
 The following CLI wiring is reserved for a future qualified stock backend;
 currently `run` and `flush` report missing transport capabilities. Setting
 credentials does not enable generic artifact publication. For a qualified custom
 backend, construct `Runner` in Python as described in the transport guide.
+Use the [worked S3/MinIO transport](docs/s3_transport.md) for ordinary object
+storage and the [ROS 2 closed-bag node](docs/ros2_manifest.md) for bag automation.
 The CLI uses these persistent paths:
 
 ```bash
@@ -100,6 +102,17 @@ export VMODAL_ROBOT_READY_DIR=/data/lerobot/vmodal-ready
 export VMODAL_ROBOT_SPOOL_DIR=/var/lib/vmodal-robot
 
 vmodal-robot run
+```
+
+The actual CLI default is `./vmodal_robot_spool`, relative to the working directory.
+On a robot, set an absolute persistent path. `/var/lib/vmodal-robot` is the deployment
+example above and must be provisioned for the service account before first run:
+
+```bash
+sudo install -d -m 0755 -o "$(id -un)" -g "$(id -gn)" /var/lib/vmodal-robot
+# Or use a persistent directory you own:
+mkdir -p "$HOME/.local/share/vmodal-robot"
+export VMODAL_ROBOT_SPOOL_DIR="$HOME/.local/share/vmodal-robot"
 ```
 
 Inspect the queue or drain it during a controlled shutdown:
@@ -245,7 +258,7 @@ after every artifact ACK. Default limits are:
 | Total spool bytes | 10 GiB | `--max_bytes` / `VMODAL_ROBOT_MAX_BYTES` |
 | Reserved auxiliary bytes | 512 MiB | `--aux_reserve_bytes` / `VMODAL_ROBOT_AUX_RESERVE_BYTES` |
 | Retained payload records | 10,000 | `--max_records` / `VMODAL_ROBOT_MAX_RECORDS` |
-| Single video bytes | 100 MiB (104,857,600 bytes) | `--max_video_bytes` / `VMODAL_ROBOT_MAX_VIDEO_BYTES` |
+| Single video bytes | 1 GiB (1,073,741,824 bytes) | `--max_video_bytes` / `VMODAL_ROBOT_MAX_VIDEO_BYTES` |
 | ACK payload retention | 0 s | `--retention_seconds` / `VMODAL_ROBOT_RETENTION_SECONDS` |
 | Discovery poll | 1 s | `--poll_seconds` |
 | Request timeout | 120 s | `--request_timeout_seconds` |
@@ -256,6 +269,8 @@ the CLI cap alone does not make a 200 MB producer shard deliverable. MiB means
 `1024**2` bytes; decimal MB means `1000**2`. A bundled video that cannot fit
 defers its whole revision, including telemetry. Separate telemetry delivery
 requires a separate complete producer manifest with metadata.
+Discovery batches of 100 are per-poll work limits, with fair rotation across all
+eligible manifests. They do not cap the total number of ready manifests.
 
 Automatic cleanup removes only spool-owned payloads whose artifact ACK and every
 referencing revision publication are durable and whose retention has expired.
@@ -269,7 +284,7 @@ blocked work, and stock transport qualification. Status can open and migrate an
 existing spool; follow the backup procedure in the transport guide first.
 
 ```bash
-vmodal-robot status --spool_dir=/var/lib/vmodal-robot | python -m json.tool
+vmodal-robot status --spool_dir=/var/lib/vmodal-robot | python3 -m json.tool
 ```
 
 ## Transport boundary
@@ -320,7 +335,7 @@ Install a public source checkout with:
 ```bash
 git clone https://github.com/v-modal/vmodal_sdk_robotics.git
 cd vmodal_sdk_robotics/lerobot
-python -m pip install .
+python3 -m pip install .
 ```
 
 Run the same fake-data suite from the public checkout in its existing Python

@@ -1,4 +1,7 @@
 # Byte-compiled / optimized / DLL files
+.DS_Store
+/lerobot/ztmp/
+/lerobot/ztmp_sandbox/
 __pycache__/
 *.py[codz]
 *$py.class

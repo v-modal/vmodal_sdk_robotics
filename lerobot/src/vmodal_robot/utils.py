@@ -8,7 +8,7 @@ from typing import List, Dict, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 import os,sys
 import fire
-from src.utils.util_log import log_info, log_error, log_trace, log_warning
+from vmodal_robot._support.util_log import log_info, log_error, log_trace, log_warning
 
 import hashlib
 import json
@@ -19,6 +19,63 @@ import fcntl
 
 def str_sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
+
+
+def os_bag_manifest(bag_dir: str, ready_dir: str, source_id: str,
+                    dataset_key: str, destination: str) -> str:
+    """Call only after the recorder has closed and stopped modifying this bag."""
+    import yaml
+    root = os.path.abspath(bag_dir)
+    if not all((source_id.strip(), dataset_key.strip(), destination.strip())):
+        raise ValueError("source_id, dataset_key and destination are required")
+    meta = os.path.join(root, "metadata.yaml")
+    before_meta = os.stat(meta)
+    try:
+        info = yaml.safe_load(os_read_bytes(meta))["rosbag2_bagfile_information"]
+    except yaml.YAMLError as exc:
+        raise ValueError("invalid bag metadata YAML") from exc
+    paths = info["relative_file_paths"]
+    if not isinstance(paths, list) or not paths or len(set(paths)) != len(paths):
+        raise ValueError("metadata must list unique closed storage files")
+    artifacts = []
+    for rel in ["metadata.yaml"] + sorted(paths):
+        rel = os_safe_relative(rel)
+        path = os.path.join(root, rel)
+        if os_path_has_symlink(path, root) or not os.path.isfile(path):
+            raise ValueError("bag artifact must be a regular file within bag_dir")
+        if rel != "metadata.yaml" and not rel.endswith((".db3", ".mcap", ".db3.zstd", ".mcap.zstd")):
+            raise ValueError("unsupported native bag storage file")
+        if os.path.exists(path + "-wal") or os.path.exists(path + "-shm"):
+            raise ValueError("SQLite bag is still open or requires checkpointing")
+        before = os.stat(path)
+        with open(path, "rb") as handle:
+            os.fsync(handle.fileno())
+        checksum = str_sha256_file(path)
+        after = os.stat(path)
+        if (before.st_ino, before.st_size, before.st_mtime_ns) != (after.st_ino, after.st_size, after.st_mtime_ns):
+            raise ValueError("bag artifact changed during handoff")
+        artifacts.append(dict(path=rel, kind="metadata" if rel == "metadata.yaml" else "opaque",
+                              size_bytes=after.st_size, sha256=checksum,
+                              content_type="application/yaml" if rel == "metadata.yaml" else "application/octet-stream",
+                              source_refs=dict(bag_name=os.path.basename(root), storage_identifier=info["storage_identifier"])))
+    after_meta = os.stat(meta)
+    if (before_meta.st_ino, before_meta.st_size, before_meta.st_mtime_ns) != (after_meta.st_ino, after_meta.st_size, after_meta.st_mtime_ns):
+        raise ValueError("bag metadata changed during handoff")
+    identity = str_sha256_bytes(str_json_canonical(dict(bag=root, artifacts=artifacts)))
+    value = dict(contract_version=1, source_format="rosbag2", source_version="1",
+                 source_id=source_id, dataset_key=dataset_key, destination=destination,
+                 dataset_root=root, source_revision=identity, complete=True, artifacts=artifacts)
+    target = os.path.join(ready_dir, identity + ".ready.json")
+    os_write_bytes(target, str_json_canonical(value), immutable=True)
+    return os.path.abspath(target)
+
+
+def os_bag_closed(bag_dir: str, closed_dir: str):
+    """Persist successful recorder completion; call only after recorder exit."""
+    if not os.path.isabs(bag_dir):
+        raise ValueError("closed bag notification requires an absolute path")
+    key = str_sha256_bytes(bag_dir.encode())
+    os_write_bytes(os.path.join(closed_dir, key + ".closed"), bag_dir.encode(), immutable=True)
 
 
 def str_json_canonical(value: Any) -> bytes:
