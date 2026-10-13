@@ -3,7 +3,7 @@
 Date: 2026-10-13
 Version: 1.1
 Release target: v0.2.2
-Status: implemented and tested; public native integration CI follows publication.
+Status: implemented, tested and published on public main.
 
 ## Verification status — 2026-10-13
 
@@ -26,7 +26,12 @@ systemd/fleet operations.
 - Requested target synchronized with the tested public implementation; the local
   environment's default video limit is also 1 GiB. Sibling SDK installation uses
   its own isolated build backend to avoid incompatible setuptools requirements.
-- Native Humble/Jazzy and public MinIO CI will be recorded after the public push.
+- Public implementation commit:
+  [39ee73e](https://github.com/v-modal/vmodal_sdk_robotics/commit/39ee73ea0195ed081a88ef7af93356c4a8db0f1e),
+  pushed to `main` and `fix/issue-v2-operations`.
+- [Public CI run 38396545013](https://github.com/v-modal/vmodal_sdk_robotics/actions/runs/38396545013)
+  passed secret detection, native ROS 2 Humble/Python 3.10 and Jazzy/Python 3.12
+  (including full suites and real recorder handoff), plus actual MinIO integration.
   No eight-hour hardware shift or deployed V-Modal backend is claimed.
 
 ## User Input Specs

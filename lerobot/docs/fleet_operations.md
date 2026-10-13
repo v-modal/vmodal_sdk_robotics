@@ -65,6 +65,11 @@ directory: the restarted client loads the replacement credentials and recovers
 uncertain deliveries. SDK provider support is described in the
 [AWS credential provider documentation](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
 
+An authorization failure already marked `BLOCKED` stays blocked across restart.
+After correcting credentials, reconcile and requeue only the reviewed affected
+IDs using the [incident recovery procedure](transport_contract.md#existing-spool-migration-and-incident-recovery).
+Restart alone resumes uncertain/retryable work; it does not reset blocked rows.
+
 ## Docking, shutdown and recovery
 
 The unit passes a 30-second SDK shutdown deadline and sets `TimeoutStopSec=45`.
