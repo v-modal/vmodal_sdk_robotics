@@ -112,7 +112,10 @@
 
 <p>Exact feature declarations include dtype, shape, component names, units and
 coordinate/action semantics supplied by the caller. Native timestamps remain
-integer nanoseconds; no retiming or row repair is performed here.</p>
+integer nanoseconds; no retiming or row repair is performed here.
+Rows are grouped once by episode. Shared-shard camera ownership is checked
+on sorted rational media intervals, including different declared time bases,
+rather than scanning the full row table or every episode pair repeatedly.</p>
 </div>
 
 

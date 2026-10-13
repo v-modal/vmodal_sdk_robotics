@@ -372,9 +372,6 @@
                                 <a class="variable" href="#Spool.db">db</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Spool.last_cleanup">last_cleanup</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#Spool.close">close</a>
                         </li>
                         <li>
@@ -1792,6 +1789,11 @@ vmodal_robot    </h1>
     </div>
     <a class="headerlink" href="#Spool"></a>
 
+            <div class="docstring"><p>Exclusive durable owner of one root; same-ID artifact/revision contracts are immutable.</p>
+
+<p>Competing opens fail before recovery can remove another admission's copies.
+Closing the spool or exiting its process releases ownership.</p>
+</div>
 
 
                             <div id="Spool.__init__" class="classattr">
@@ -1857,17 +1859,6 @@ vmodal_robot    </h1>
 
     </div>
     <a class="headerlink" href="#Spool.db"></a>
-
-
-
-                            </div>
-                            <div id="Spool.last_cleanup" class="classattr">
-                                <div class="attr variable">
-            <span class="name">last_cleanup</span>
-
-
-    </div>
-    <a class="headerlink" href="#Spool.last_cleanup"></a>
 
 
 
