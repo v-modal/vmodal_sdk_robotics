@@ -1,6 +1,8 @@
 name: sdk_robot_test_simul_release
 
 # Standalone public SDK compatibility tests; no credentials are required.
+# uinterface/sdk_ros_robot/ is exported as the public repository root.
+# Repository paths below are relative to that root.
 on:
   workflow_dispatch:
   pull_request:
@@ -119,11 +121,12 @@ jobs:
         with:
           persist-credentials: false
       - name: Start disposable MinIO
+        working-directory: ${{ env.WORKDIR }}
         run: |
-          docker build -f lerobot/tests/minio.Dockerfile -t vmodal-minio-test lerobot/tests
+          docker build -f tests/minio.Dockerfile -t vmodal-minio-test tests
           docker run -d --name minio -p 9000:9000 vmodal-minio-test
       - name: Install and test worked transport
-        working-directory: lerobot
+        working-directory: ${{ env.WORKDIR }}
         run: |
           python3 -m pip install '.[s3,rosbag]'
           export PYTHONPATH="$PWD:$PWD/src"
